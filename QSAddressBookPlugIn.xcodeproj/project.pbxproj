@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -159,9 +159,16 @@
 /* Begin PBXProject section */
 		0259C573FE90428111CA0C5A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 7F07AEFE085E432900E2AFC4 /* Build configuration list for PBXProject "QSAddressBookPlugIn" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0259C574FE90428111CA0C5A /* QSAddressBookPlugIn */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -222,6 +229,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14A8D0FC10CE53C7003857E3 /* Release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Release;
 		};
@@ -229,6 +237,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14A8D0FA10CE53C7003857E3 /* QSPlugIn_Release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				PRODUCT_NAME = "Address Book Module";
 			};
 			name = Release;
@@ -237,6 +246,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14A8D0F810CE53C7003857E3 /* QSPlugIn_Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				PRODUCT_NAME = "Address Book Module";
 			};
 			name = Debug;
@@ -245,6 +255,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14A8D0F610CE53C7003857E3 /* Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Debug;
 		};
