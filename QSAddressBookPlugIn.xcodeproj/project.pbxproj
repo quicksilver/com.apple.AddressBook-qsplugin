@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73E2467F1545A19B0099A21B /* ABPerson_Display.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E2467D1545A19B0099A21B /* ABPerson_Display.m */; };
-		73EC5C37154566CB0015447F /* QSABMimicActionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EC5C31154566CB0015447F /* QSABMimicActionProvider.m */; };
-		73EC5C38154566CB0015447F /* QSABSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EC5C33154566CB0015447F /* QSABSource.m */; };
-		73EC5C3A154566CB0015447F /* QSObject_ContactHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 73EC5C36154566CB0015447F /* QSObject_ContactHandling.m */; };
+		738075C71545E10B00D22E1E /* ABPerson_Display.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075BF1545E10B00D22E1E /* ABPerson_Display.m */; };
+		738075C81545E10B00D22E1E /* QSABMimicActionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075C21545E10B00D22E1E /* QSABMimicActionProvider.m */; };
+		738075C91545E10B00D22E1E /* QSABSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075C41545E10B00D22E1E /* QSABSource.m */; };
+		738075CA1545E10B00D22E1E /* QSObject_ContactHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075C61545E10B00D22E1E /* QSObject_ContactHandling.m */; };
 		73FC134F1545507600956087 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FC134E1545507600956087 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		73E2467C1545A19B0099A21B /* ABPerson_Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ABPerson_Display.h; path = ../ABPerson_Display.h; sourceTree = "<group>"; };
-		73E2467D1545A19B0099A21B /* ABPerson_Display.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ABPerson_Display.m; path = ../ABPerson_Display.m; sourceTree = "<group>"; };
-		73E2467E1545A19B0099A21B /* ABTelephony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ABTelephony.h; path = ../ABTelephony.h; sourceTree = "<group>"; };
-		73EC5C30154566CB0015447F /* QSABMimicActionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSABMimicActionProvider.h; path = ../QSABMimicActionProvider.h; sourceTree = "<group>"; };
-		73EC5C31154566CB0015447F /* QSABMimicActionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSABMimicActionProvider.m; path = ../QSABMimicActionProvider.m; sourceTree = "<group>"; };
-		73EC5C32154566CB0015447F /* QSABSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSABSource.h; path = ../QSABSource.h; sourceTree = "<group>"; };
-		73EC5C33154566CB0015447F /* QSABSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSABSource.m; path = ../QSABSource.m; sourceTree = "<group>"; };
-		73EC5C35154566CB0015447F /* QSObject_ContactHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSObject_ContactHandling.h; path = ../QSObject_ContactHandling.h; sourceTree = "<group>"; };
-		73EC5C36154566CB0015447F /* QSObject_ContactHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSObject_ContactHandling.m; path = ../QSObject_ContactHandling.m; sourceTree = "<group>"; };
+		738075BE1545E10B00D22E1E /* ABPerson_Display.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPerson_Display.h; sourceTree = SOURCE_ROOT; };
+		738075BF1545E10B00D22E1E /* ABPerson_Display.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABPerson_Display.m; sourceTree = SOURCE_ROOT; };
+		738075C01545E10B00D22E1E /* ABTelephony.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABTelephony.h; sourceTree = SOURCE_ROOT; };
+		738075C11545E10B00D22E1E /* QSABMimicActionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSABMimicActionProvider.h; sourceTree = SOURCE_ROOT; };
+		738075C21545E10B00D22E1E /* QSABMimicActionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSABMimicActionProvider.m; sourceTree = SOURCE_ROOT; };
+		738075C31545E10B00D22E1E /* QSABSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSABSource.h; sourceTree = SOURCE_ROOT; };
+		738075C41545E10B00D22E1E /* QSABSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSABSource.m; sourceTree = SOURCE_ROOT; };
+		738075C51545E10B00D22E1E /* QSObject_ContactHandling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSObject_ContactHandling.h; sourceTree = SOURCE_ROOT; };
+		738075C61545E10B00D22E1E /* QSObject_ContactHandling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSObject_ContactHandling.m; sourceTree = SOURCE_ROOT; };
 		73FC134B1545507500956087 /* QSAddressBookPlugin.qsplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QSAddressBookPlugin.qsplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		73FC134E1545507600956087 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		73FC13521545507600956087 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
@@ -79,15 +79,15 @@
 		73FC13501545507600956087 /* QSAddressBookPlugin */ = {
 			isa = PBXGroup;
 			children = (
-				73E2467C1545A19B0099A21B /* ABPerson_Display.h */,
-				73E2467D1545A19B0099A21B /* ABPerson_Display.m */,
-				73E2467E1545A19B0099A21B /* ABTelephony.h */,
-				73EC5C30154566CB0015447F /* QSABMimicActionProvider.h */,
-				73EC5C31154566CB0015447F /* QSABMimicActionProvider.m */,
-				73EC5C32154566CB0015447F /* QSABSource.h */,
-				73EC5C33154566CB0015447F /* QSABSource.m */,
-				73EC5C35154566CB0015447F /* QSObject_ContactHandling.h */,
-				73EC5C36154566CB0015447F /* QSObject_ContactHandling.m */,
+				738075BE1545E10B00D22E1E /* ABPerson_Display.h */,
+				738075BF1545E10B00D22E1E /* ABPerson_Display.m */,
+				738075C01545E10B00D22E1E /* ABTelephony.h */,
+				738075C11545E10B00D22E1E /* QSABMimicActionProvider.h */,
+				738075C21545E10B00D22E1E /* QSABMimicActionProvider.m */,
+				738075C31545E10B00D22E1E /* QSABSource.h */,
+				738075C41545E10B00D22E1E /* QSABSource.m */,
+				738075C51545E10B00D22E1E /* QSObject_ContactHandling.h */,
+				738075C61545E10B00D22E1E /* QSObject_ContactHandling.m */,
 				73FC13511545507600956087 /* Supporting Files */,
 			);
 			path = QSAddressBookPlugin;
@@ -192,10 +192,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73EC5C37154566CB0015447F /* QSABMimicActionProvider.m in Sources */,
-				73EC5C38154566CB0015447F /* QSABSource.m in Sources */,
-				73EC5C3A154566CB0015447F /* QSObject_ContactHandling.m in Sources */,
-				73E2467F1545A19B0099A21B /* ABPerson_Display.m in Sources */,
+				738075C71545E10B00D22E1E /* ABPerson_Display.m in Sources */,
+				738075C81545E10B00D22E1E /* QSABMimicActionProvider.m in Sources */,
+				738075C91545E10B00D22E1E /* QSABSource.m in Sources */,
+				738075CA1545E10B00D22E1E /* QSObject_ContactHandling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
