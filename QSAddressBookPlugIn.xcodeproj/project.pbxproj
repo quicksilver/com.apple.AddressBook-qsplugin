@@ -27,7 +27,6 @@
 		73FC134B1545507500956087 /* QSAddressBookPlugin.qsplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QSAddressBookPlugin.qsplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		73FC134E1545507600956087 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		73FC13521545507600956087 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
-		73FC13541545507600956087 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		73FC13571545507600956087 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		73FC13581545507600956087 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		73FC13591545507600956087 /* Developer.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Developer.xcconfig; sourceTree = "<group>"; };
@@ -97,7 +96,6 @@
 			isa = PBXGroup;
 			children = (
 				73FC13521545507600956087 /* Info.plist */,
-				73FC13531545507600956087 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -144,7 +142,7 @@
 /* Begin PBXProject section */
 		73FC13411545507500956087 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugin" */;
+			buildConfigurationList = 73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugIn" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -183,7 +181,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/QSAddressBookPlugin/bltrversion\" \"$INFOPLIST_FILE\"";
+			shellScript = "\"$SRCROOT/bltrversion\" \"$INFOPLIST_FILE\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -200,17 +198,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		73FC13531545507600956087 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				73FC13541545507600956087 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		73FC136A1545507600956087 /* Debug */ = {
@@ -246,7 +233,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugin" */ = {
+		73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugIn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				73FC136A1545507600956087 /* Debug */,
