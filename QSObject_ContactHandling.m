@@ -230,7 +230,7 @@
 	NSString *address = [emailAddresses valueAtIndex:multiIndex];
 
 	if (address) {
-		[self setObject:address forType:QSTextType];
+		[self setObject:address forType:QSEmailAddressType];
     }
 	
 	/*	NSArray *aimAccounts = [person valueForProperty:kABAIMInstantProperty];
