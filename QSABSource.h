@@ -15,6 +15,3 @@
 }
 @end
 
-@interface QSABMailRecentsObjectSource : QSObjectSource
-@end
-

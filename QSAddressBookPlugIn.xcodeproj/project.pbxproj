@@ -52,8 +52,8 @@
 		73FC133F1545507500956087 = {
 			isa = PBXGroup;
 			children = (
-				73FC13501545507600956087 /* QSAddressBookPlugin */,
 				73FC13561545507600956087 /* Configuration */,
+				73FC13501545507600956087 /* QSAddressBookPlugin */,
 				73FC134D1545507500956087 /* Frameworks */,
 				73FC134C1545507500956087 /* Products */,
 			);

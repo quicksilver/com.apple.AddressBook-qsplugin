@@ -14,24 +14,11 @@
 
 - (BOOL)usesGlobalSettings {return YES;}
 
-
-- (NSView *)settingsView {
-	if ([NSApp featureLevel] < 3)return nil;
-  if (![super settingsView]) {
-    [NSBundle loadNibNamed:NSStringFromClass([self class]) owner:self];
-		
-		
-    //	[self refreshGroupList];
-	}
-  return [super settingsView];
-}
-
-
 - (NSArray *)contactGroups {
 	NSMutableArray *array = [NSMutableArray array];
 	[array addObject:@"All Contacts"];
 	
-	ABAddressBook *book = [ABAddressBook sharedAddressBook];
+	ABAddressBook *book = [ABAddressBook addressBook];
 	NSMutableArray *groups = [[book groups] mutableCopy];
 	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
 	[groups removeObject:@"Me"];
@@ -47,7 +34,7 @@
 	NSMutableArray *array = [NSMutableArray array];
 	[array addObject:@"None"];
 	
-	ABAddressBook *book = [ABAddressBook sharedAddressBook];
+	ABAddressBook *book = [ABAddressBook addressBook];
 	NSMutableArray *groups = [[book groups] mutableCopy];
 	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
 	[groups removeObject:@"Me"];
@@ -77,7 +64,7 @@
 - (NSArray *)contactWebPages {
 	NSMutableArray *array = [NSMutableArray array];
 	
-	ABAddressBook *book = [ABAddressBook sharedAddressBook];
+	ABAddressBook *book = [ABAddressBook addressBook];
 	NSArray *people = [book people];
 	NSEnumerator *personEnumerator = [people objectEnumerator];
 	id thePerson;
@@ -131,7 +118,7 @@
 	} 
 	if ((count = [inserted count])) {
 		//NSEnumerator *idEnum = [inserted objectEnumerator];
-		ABAddressBook *book = [ABAddressBook sharedAddressBook];
+		ABAddressBook *book = [ABAddressBook addressBook];
 		
 		ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:@"Quicksilver" comparison:kABPrefixMatchCaseInsensitive];
 		ABGroup *qsGroup = [[book recordsMatchingSearchElement:groupSearch]lastObject];
@@ -175,7 +162,7 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
 	NSMutableArray *array = [NSMutableArray array];
     
-    ABAddressBook *book = [ABAddressBook sharedAddressBook];
+    ABAddressBook *book = [ABAddressBook addressBook];
     
     NSArray *people = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -186,16 +173,10 @@
     BOOL includeEmail = [defaults boolForKey:@"QSABIncludeEmail"];
     BOOL includeContacts = [defaults boolForKey:@"QSABIncludeContacts"];
     
-    NSString *group = [defaults stringForKey:@"QSABGroupLimit"];
-    if (!group) group = @"Quicksilver";
-    ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:group comparison:kABPrefixMatchCaseInsensitive];
-    ABGroup *qsGroup = [[book recordsMatchingSearchElement:groupSearch] lastObject];
-    people = [qsGroup members];
-    
-    if (![people count]) people = [book people];
-    NSEnumerator *personEnumerator = [people objectEnumerator];
+    people = [book people];
+
     id thePerson;
-    while ((thePerson = [personEnumerator nextObject])) {
+    for(thePerson in people) {
         if (includeContacts)	[array addObject:[QSObject objectWithPerson:thePerson]];
         if (includePhone)		[array addObjectsFromArray:[QSContactObjectHandler phoneObjectsForPerson:thePerson asChild:NO]];
         if (includeURL)			[array addObjectsFromArray:[QSContactObjectHandler URLObjectsForPerson:thePerson asChild:NO]];
@@ -203,37 +184,6 @@
         if (includeEmail)		[array addObjectsFromArray:[QSContactObjectHandler emailObjectsForPerson:thePerson asChild:NO]];
     }
     return array;
-}
-
-@end
-
-
-
-@implementation QSABMailRecentsObjectSource
-- (NSImage *)iconForEntry:(NSDictionary *)theEntry {return [[NSWorkspace sharedWorkspace] iconForFile:@"/Applications/Mail.app"];}
-
-- (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
-	NSMutableArray *abArray = [NSMutableArray arrayWithCapacity:1];
-	NSEnumerator *personEnumerator = [[[ABAddressBook sharedAddressBook] performSelector:@selector(mailRecents)] objectEnumerator];
-	ABPerson *thePerson;
-	while ((thePerson = [personEnumerator nextObject])) {
-        
-		NSString *email = [thePerson valueForProperty:kABEmailProperty];
-		
-		if ([thePerson valueForProperty:@"PersonUID"]) continue;  
-		
-#warning I should use this to set the default email for an addressbook contact
-		
-		NSString *name = [thePerson displayName];
-		
-		if (email) {
-			QSObject *emailObject = [QSObject URLObjectWithURL:[NSString stringWithFormat:@"mailto:%@", email]
-                                                         title:[NSString stringWithFormat:@"%@ (recent email)", [name length] ? name : email]];
-			
-			[abArray addObject:emailObject];
-		}
-	}
-	return abArray;
 }
 
 @end
