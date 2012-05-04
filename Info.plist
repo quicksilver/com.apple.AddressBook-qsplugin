@@ -11,15 +11,17 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Apple Address Book Module</string>
+	<string>Address Book Plugin</string>
+	<key>CFBundleDisplayName</key>
+	<string>Address Book Plugin</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
-	<key>CFBundleVersion</key>
-	<string>16C</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>16E</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2006, Blacktree, Inc.</string>
+	<string>Copyright © 2012, QSApp</string>
 	<key>QSActions</key>
 	<dict>
 		<key>QSABContactAddDataAction</key>
@@ -95,7 +97,28 @@
 		<key>description</key>
 		<string>Adds Address Book contacts</string>
 		<key>extendedDescription</key>
-		<string>Adds Address Book contacts and actions for showing them. Contact info is available as children of contacts.</string>
+		<string>&lt;h2&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;The Apple Address Book plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Address Book app.&lt;/p&gt;
+
+&lt;h2&gt;Catalog&lt;/h2&gt;
+
+&lt;p&gt;The plugin adds a single catalog source called &apos;Contacts&apos;, available under the &apos;Modules&apos; tab in the Catalog preferences that adds all your Address Book contacts to Quicksilver&apos;s catalog. If you do not wish to populate your catalog with your Address Book contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Address Book app.&lt;/p&gt;
+
+&lt;h3&gt;Contacts in Quicksilver&lt;/h3&gt;
+
+&lt;p&gt;Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact. &lt;br /&gt;
+The contact&apos;s information is available for use with any valid action in Quicksilver. For example you can find a contact&apos;s postal address with Google Maps, email a file to one email address or open the contact&apos;s website.&lt;/p&gt;
+
+&lt;h2&gt;Actions&lt;/h2&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;
+&lt;strong&gt;Show Contact&lt;/strong&gt;: Show the selected contact in Address Book&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Edit Contact&lt;/strong&gt;: Edit the selected contact in Address Book&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Add Note...&lt;/strong&gt;: Add a text note to a selected contact. This does not open Address Book.&lt;/li&gt;
+
+&lt;/ul&gt;</string>
 		<key>icon</key>
 		<string>com.apple.AddressBook</string>
 		<key>relatedBundles</key>
@@ -109,63 +132,15 @@
 	<array>
 		<dict>
 			<key>ID</key>
-			<string>QSPresetABMailRecents</string>
-			<key>enabled</key>
-			<false/>
-			<key>name</key>
-			<string>Recent Mail Addresses</string>
-			<key>source</key>
-			<string>QSABMailRecentsObjectSource</string>
-		</dict>
-		<dict>
-			<key>ID</key>
-			<string>QSPresetAddressBookGroup</string>
-			<key>children</key>
-			<array>
-				<dict>
-					<key>ID</key>
-					<string>QSPresetAddressBook</string>
-					<key>name</key>
-					<string>Address Book Contacts</string>
-					<key>source</key>
-					<string>QSAddressBookObjectSource</string>
-				</dict>
-				<dict>
-					<key>ID</key>
-					<string>QSPresetAddressBookScripts</string>
-					<key>enabled</key>
-					<false/>
-					<key>name</key>
-					<string>Scripts (Address Book)</string>
-					<key>requiresSettingsPath</key>
-					<true/>
-					<key>settings</key>
-					<dict>
-						<key>folderDepth</key>
-						<integer>1</integer>
-						<key>folderTypes</key>
-						<array>
-							<string>scpt</string>
-						</array>
-						<key>parser</key>
-						<string>QSDirectoryParser</string>
-						<key>path</key>
-						<string>~/Library/Address Book Scripts</string>
-						<key>skipItem</key>
-						<true/>
-					</dict>
-					<key>source</key>
-					<string>QSFileSystemObjectSource</string>
-				</dict>
-			</array>
+			<string>QSPresetAddressBook</string>
 			<key>icon</key>
 			<string>com.apple.AddressBook</string>
 			<key>name</key>
-			<string>Apple Address Book</string>
+			<string>Address Book Contacts</string>
 			<key>requiresBundle</key>
 			<string>com.apple.AddressBook</string>
 			<key>source</key>
-			<string>QSGroupObjectSource</string>
+			<string>QSAddressBookObjectSource</string>
 		</dict>
 	</array>
 	<key>QSRegistration</key>
@@ -194,8 +169,6 @@
 		</dict>
 		<key>QSObjectSources</key>
 		<dict>
-			<key>QSABMailRecentsObjectSource</key>
-			<string>QSABMailRecentsObjectSource</string>
 			<key>QSAddressBookObjectSource</key>
 			<string>QSAddressBookObjectSource</string>
 		</dict>

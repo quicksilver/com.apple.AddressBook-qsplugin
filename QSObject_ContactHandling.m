@@ -1,6 +1,8 @@
 
 #import <AddressBook/AddressBook.h>
 
+#import <QSCore/QSBasicObject.h>
+
 #import "QSObject_ContactHandling.h"
 #import "ABPerson_Display.h"
 
@@ -35,7 +37,8 @@
 	//	NSLog(@"str %@", [desc objectValueAPPLE]);
 	//	
 	//	NSLog(@"str %@", [desc xobjectValue]);
-	
+	NSLog(@"name: %@",desc);
+    
 	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:@"on resolve (theContacts)\rtell app \"Address Book\" to return name of theContacts\rend"];
 	desc = [script executeSubroutine:@"resolve" arguments:[NSArray arrayWithObject:desc] error:nil];
 	NSLog(@"desc %@", [desc objectValueAPPLE]);
@@ -48,7 +51,7 @@
 
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
 	if (child)
-		return [NSString stringWithFormat:@"%@ %@ (%@)", label, type, [person displayName], label, type];
+		return [[NSString stringWithFormat:@"%@ %@", label, type] capitalizedString];
 	else
 		return [NSString stringWithFormat:@"%@'s %@ %@", [person displayName], label, type];
 }
@@ -226,8 +229,9 @@
 	int multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
 	NSString *address = [emailAddresses valueAtIndex:multiIndex];
 
-	if (address)
-		[self setObject:[NSArray arrayWithObject:address] forType:QSEmailAddressType];
+	if (address) {
+		[self setObject:address forType:QSEmailAddressType];
+    }
 	
 	/*	NSArray *aimAccounts = [person valueForProperty:kABAIMInstantProperty];
 	if ([aimAccounts count])
