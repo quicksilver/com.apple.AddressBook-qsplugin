@@ -91,8 +91,9 @@
 		}
 		QSObject *object = [QSObject URLObjectWithURL:homePage
                                           title:name];
-		
-		[array addObject:object];
+		if (object) {
+            [array addObject:object];
+        }
 	}
 	NSSortDescriptor *nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES] autorelease];
   [array sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
