@@ -75,7 +75,7 @@
 		NSString *name = @"(no name)";
 		NSString *namePiece;
 		
-		BOOL showAsCompany = [[thePerson valueForProperty:kABPersonFlags] intValue] & kABShowAsMask & kABShowAsCompany;
+		BOOL showAsCompany = [[thePerson valueForProperty:kABPersonFlags] integerValue] & kABShowAsMask & kABShowAsCompany;
 		if (showAsCompany) {
 			if ((namePiece = [thePerson valueForProperty:kABOrganizationProperty]))
 				name = namePiece;
@@ -103,9 +103,8 @@
 	NSArray *inserted = [[notif userInfo] objectForKey:kABInsertedRecords];
 	NSArray *updated = [[notif userInfo] objectForKey:kABUpdatedRecords];
 	NSArray *deleted = [[notif userInfo] objectForKey:kABDeletedRecords];
-	int count, i;
+	NSUInteger count;
 	QSObject *thisPerson;
-	NSString *thisID;
 	//	if (VERBOSE) NSLog(@"AB %d %d %d", [inserted count], [updated count], [deleted count]);
 	if ((count = [updated count])) {
 		NSEnumerator *objEnum = [[contactDictionary objectsForKeys:updated notFoundMarker:[NSNull null]]objectEnumerator];
@@ -123,8 +122,7 @@
 		ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:@"Quicksilver" comparison:kABPrefixMatchCaseInsensitive];
 		ABGroup *qsGroup = [[book recordsMatchingSearchElement:groupSearch]lastObject];
 		
-		for (i = 0; i < count; i++) {
-			thisID = [inserted objectAtIndex:i];
+		for (NSString *thisID in inserted) {
 			ABPerson *person = (ABPerson *)[book recordForUniqueId:thisID];
 			
 			if ([[qsGroup members]containsObject:person]) {
