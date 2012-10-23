@@ -31,8 +31,6 @@
 		73FC13581545507600956087 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		73FC13591545507600956087 /* Developer.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Developer.xcconfig; sourceTree = "<group>"; };
 		73FC135A1545507600956087 /* QSPlugIn.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QSPlugIn.xcconfig; sourceTree = "<group>"; };
-		73FC135B1545507600956087 /* QSPlugIn_Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QSPlugIn_Debug.xcconfig; sourceTree = "<group>"; };
-		73FC135C1545507600956087 /* QSPlugIn_Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QSPlugIn_Release.xcconfig; sourceTree = "<group>"; };
 		73FC135D1545507600956087 /* Quicksilver.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quicksilver.pch; sourceTree = "<group>"; };
 		73FC135E1545507600956087 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,8 +105,6 @@
 				73FC13581545507600956087 /* Debug.xcconfig */,
 				73FC13591545507600956087 /* Developer.xcconfig */,
 				73FC135A1545507600956087 /* QSPlugIn.xcconfig */,
-				73FC135B1545507600956087 /* QSPlugIn_Debug.xcconfig */,
-				73FC135C1545507600956087 /* QSPlugIn_Release.xcconfig */,
 				73FC135D1545507600956087 /* Quicksilver.pch */,
 				73FC135E1545507600956087 /* Release.xcconfig */,
 			);
