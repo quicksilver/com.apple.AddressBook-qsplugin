@@ -290,12 +290,12 @@
  */
 
 - (QSObject *)showContact:(QSObject *)dObject {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@", [dObject objectForType:QSABPersonType]]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@", [dObject identifier]]]];
 	return nil;
 }
 
 - (QSObject *)editContact:(QSObject *)dObject {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@?edit", [dObject objectForType:QSABPersonType]]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@?edit", [dObject identifier]]]];
 	return nil;
 }
 

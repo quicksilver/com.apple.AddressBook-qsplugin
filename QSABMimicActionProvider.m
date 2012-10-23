@@ -51,7 +51,7 @@
 
 - (QSObject *)addData:(QSObject *)dObject toContact:(QSObject *)iObject{
 	//NSLog(@"%@,,,",[iObject objectForType:@"ABPeopleUIDsPboardType"]);
-	ABPerson *thePerson=(ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[iObject objectForType:QSABPersonType]];
+	ABPerson *thePerson = [iObject ABPerson];
 
 	NSString *string=[dObject stringValue];
 	

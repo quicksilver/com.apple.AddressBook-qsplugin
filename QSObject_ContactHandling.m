@@ -17,7 +17,7 @@
 }
 
 - (BOOL)loadIconForObject:(QSObject *)object {
-	ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:QSABPersonType]];
+	ABPerson *person = [object ABPerson];
 	NSImage *personImage = [[NSImage alloc] initWithData:[person imageData]];
 	if (personImage) {
 		[personImage createRepresentationOfSize:NSMakeSize(32, 32)];
@@ -45,9 +45,9 @@
 	return nil;
 }
 
-- (NSString *)identifierForObject:(id <QSObject > )object {
-    return [[object objectForType:QSABPersonType] objectAtIndex:0];
-}
+//- (NSString *)identifierForObject:(id <QSObject > )object {
+//    return [[object objectForType:QSABPersonType] objectAtIndex:0];
+//}
 
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
 	if (child)
@@ -137,7 +137,7 @@
 }
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
-    ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:QSABPersonType]];
+    ABPerson *person = [object ABPerson];
     
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
     
@@ -186,14 +186,13 @@
 // - -NSString *formalName(NSString *title, NSString *firstName, NSString *middleName, NSString *lastName, NSString *suffix) {
 //NSMutableString *formalName=
 
-- (NSString *)nameForRecord:(ABRecord *)record {
-    return nil;
+- (ABPerson *)ABPerson
+{
+    return (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[self identifier]];
 }
 
-
 - (void)loadContactInfo {
-	ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[[self arrayForType:QSABPersonType] lastObject]];
-	
+	ABPerson *person = [self ABPerson];
 	
 	NSString *newName = nil;
 	NSString *newLabel = nil;
@@ -265,7 +264,7 @@
 - (id)initWithPerson:(ABPerson *)person {
 	//id object = [QSObject objectWithIdentifier:[person uniqueId]];
     if ((self = [self init])) {
-        [data setObject:[NSArray arrayWithObject:[person uniqueId]] forKey:QSABPersonType];
+        [data setObject:[person uniqueId] forKey:QSABPersonType];
 		//[QSObject registerObject:self withIdentifier:[self identifier]];
         [self setIdentifier:[person uniqueId]];
 		[self loadContactInfo];
