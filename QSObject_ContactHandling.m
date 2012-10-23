@@ -164,14 +164,21 @@
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
-	/*    ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:@"ABPeopleUIDsPboardType"]];
-    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
+    ABPerson *person = [object ABPerson];
+    NSMutableArray *detailsParts = [NSMutableArray array];
     NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
-    if (jobTitle && companyName)
-	return [NSString stringWithFormat:@"%@, %@", jobTitle, companyName];
-    return nil;
-    return [[object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0]; */
-	return [[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:QSABPersonType]] jobTitle];
+    if (jobTitle) {
+        [detailsParts addObject:jobTitle];
+    }
+    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
+    if (companyName) {
+        [detailsParts addObject:companyName];
+    }
+    if ([detailsParts count]) {
+        // show title, company, or "title, company" if both are present
+        return [detailsParts componentsJoinedByString:@", "];
+    }
+    return [object displayName]; // effectively suppresses details
 }
 
 @end
