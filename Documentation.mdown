@@ -1,0 +1,24 @@
+## Overview
+
+The Apple Contacts plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Contacts app.
+
+## Catalog
+
+The plugin adds a single catalog source called 'Contacts', available under the 'Modules' tab in the Catalog preferences that adds all your contacts to Quicksilver's catalog. If you do not wish to populate your catalog with your contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Contacts app instead.
+
+### Contacts in Quicksilver
+
+Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact.
+
+The contact's information is available for use with any valid action in Quicksilver. For example you can find a contact's postal address with Google Maps, email a file to one email address or open the contact's website.
+
+## Actions
+
+Show Contact
+: Show the selected contact in Contacts
+
+Edit Contact
+: Edit the selected contact in Contacts
+
+Add Note…
+: Add a text note to a selected contact. This does not open Contacts.
