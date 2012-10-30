@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Address Book Plugin</string>
+	<string>Contacts</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,13 +13,13 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Address Book Plugin</string>
+	<string>Contacts Plugin</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.0</string>
 	<key>CFBundleVersion</key>
-	<string>170</string>
+	<string>171</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012, QSApp</string>
 	<key>QSActions</key>
@@ -37,7 +37,7 @@
 			<key>icon</key>
 			<string>com.apple.AddressBook</string>
 			<key>name</key>
-			<string>Add Note...</string>
+			<string>Add Note…</string>
 			<key>reverseArguments</key>
 			<true/>
 			<key>validatesObjects</key>
@@ -95,7 +95,7 @@
 			<string>Applications</string>
 		</array>
 		<key>description</key>
-		<string>Adds Address Book contacts</string>
+		<string>Provides access to contact information</string>
 		<key>extendedDescription</key>
 		<string>&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;The Apple Contacts plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Contacts app.&lt;/p&gt;
@@ -130,7 +130,7 @@
 			<key>icon</key>
 			<string>com.apple.AddressBook</string>
 			<key>name</key>
-			<string>Address Book Contacts</string>
+			<string>Contacts</string>
 			<key>requiresBundle</key>
 			<string>com.apple.AddressBook</string>
 			<key>source</key>
@@ -173,7 +173,7 @@
 				<key>icon</key>
 				<string>com.apple.addressbook</string>
 				<key>name</key>
-				<string>Address Book Contacts</string>
+				<string>Contacts</string>
 			</dict>
 		</dict>
 	</dict>

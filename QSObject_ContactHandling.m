@@ -39,7 +39,7 @@
 	//	NSLog(@"str %@", [desc xobjectValue]);
 	NSLog(@"name: %@",desc);
     
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:@"on resolve (theContacts)\rtell app \"Address Book\" to return name of theContacts\rend"];
+	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:@"on resolve (theContacts)\rtell app \"Contacts\" to return name of theContacts\rend"];
 	desc = [script executeSubroutine:@"resolve" arguments:[NSArray arrayWithObject:desc] error:nil];
 	NSLog(@"desc %@", [desc objectValueAPPLE]);
 	return nil;

@@ -59,7 +59,7 @@
 //	[distributionList addItemsWithTitles:groups];
 //}
 
-- (NSImage *)iconForEntry:(NSDictionary *)theEntry {return [[NSWorkspace sharedWorkspace]iconForFile:@"/Applications/Address Book.app"];}
+- (NSImage *)iconForEntry:(NSDictionary *)theEntry {return [[NSWorkspace sharedWorkspace]iconForFile:@"/Applications/Contacts.app"];}
 
 - (NSArray *)contactWebPages {
 	NSMutableArray *array = [NSMutableArray array];
