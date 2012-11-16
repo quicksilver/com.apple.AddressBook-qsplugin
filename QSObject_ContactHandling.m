@@ -222,7 +222,7 @@
 		[self setObject:address forType:QSEmailAddressType];
     }
 	
-    NSMutableArray *detailsParts = [NSMutableArray array];
+    NSMutableArray *detailsParts = [[NSMutableArray alloc] init];
     if (jobTitle) {
         [detailsParts addObject:jobTitle];
     }
@@ -236,6 +236,7 @@
         // prevent details from showing at all by setting them equal to name
         [self setDetails:[self displayName]];
     }
+    [detailsParts release];
 	/*	NSArray *aimAccounts = [person valueForProperty:kABAIMInstantProperty];
 	if ([aimAccounts count])
 		[self setObject:[NSString stringWithFormat:@"AIM:%@", [aimAccounts valueAtIndex:0]] forType:QSIMAccountType]; */
