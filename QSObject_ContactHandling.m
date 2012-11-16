@@ -163,24 +163,6 @@
     return NO;
 }
 
-- (NSString *)detailsOfObject:(QSObject *)object {
-    ABPerson *person = [object ABPerson];
-    NSMutableArray *detailsParts = [NSMutableArray array];
-    NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
-    if (jobTitle) {
-        [detailsParts addObject:jobTitle];
-    }
-    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
-    if (companyName) {
-        [detailsParts addObject:companyName];
-    }
-    if ([detailsParts count]) {
-        // show title, company, or "title, company" if both are present
-        return [detailsParts componentsJoinedByString:@", "];
-    }
-    return [object displayName]; // effectively suppresses details
-}
-
 @end
 
 
@@ -211,7 +193,8 @@
   
 	NSString *title = [person valueForProperty:kABTitleProperty];
 	NSString *suffix = [person valueForProperty:kABSuffixProperty];
-	
+    NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
+    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
 	
 	newLabel = formattedContactName(firstName, lastName, middleName, title, suffix);
 	newName = [person displayName];
@@ -239,6 +222,20 @@
 		[self setObject:address forType:QSEmailAddressType];
     }
 	
+    NSMutableArray *detailsParts = [NSMutableArray array];
+    if (jobTitle) {
+        [detailsParts addObject:jobTitle];
+    }
+    if (companyName) {
+        [detailsParts addObject:companyName];
+    }
+    if ([detailsParts count]) {
+        // show title, company, or "title, company" if both are present
+        [self setDetails:[detailsParts componentsJoinedByString:@", "]];
+    } else {
+        // prevent details from showing at all by setting them equal to name
+        [self setDetails:[self displayName]];
+    }
 	/*	NSArray *aimAccounts = [person valueForProperty:kABAIMInstantProperty];
 	if ([aimAccounts count])
 		[self setObject:[NSString stringWithFormat:@"AIM:%@", [aimAccounts valueAtIndex:0]] forType:QSIMAccountType]; */
