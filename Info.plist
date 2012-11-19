@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Address Book Plugin</string>
+	<string>Contacts</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,13 +13,13 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Address Book Plugin</string>
+	<string>Contacts Plugin</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.0</string>
+	<string>2.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>16F</string>
+	<string>171</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012, QSApp</string>
 	<key>QSActions</key>
@@ -37,7 +37,7 @@
 			<key>icon</key>
 			<string>com.apple.AddressBook</string>
 			<key>name</key>
-			<string>Add Note...</string>
+			<string>Add Note…</string>
 			<key>reverseArguments</key>
 			<true/>
 			<key>validatesObjects</key>
@@ -95,30 +95,24 @@
 			<string>Applications</string>
 		</array>
 		<key>description</key>
-		<string>Adds Address Book contacts</string>
+		<string>Provides access to contact information</string>
 		<key>extendedDescription</key>
 		<string>&lt;h2&gt;Overview&lt;/h2&gt;
-
-&lt;p&gt;The Apple Address Book plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Address Book app.&lt;/p&gt;
-
+&lt;p&gt;The Apple Contacts plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Contacts app.&lt;/p&gt;
 &lt;h2&gt;Catalog&lt;/h2&gt;
-
-&lt;p&gt;The plugin adds a single catalog source called 'Contacts', available under the 'Modules' tab in the Catalog preferences that adds all your Address Book contacts to Quicksilver's catalog. If you do not wish to populate your catalog with your Address Book contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Address Book app.&lt;/p&gt;
-
+&lt;p&gt;The plugin adds a single catalog source called 'Contacts', available under the 'Modules' tab in the Catalog preferences that adds all your contacts to Quicksilver's catalog. If you do not wish to populate your catalog with your contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Contacts app instead.&lt;/p&gt;
 &lt;h3&gt;Contacts in Quicksilver&lt;/h3&gt;
-
-&lt;p&gt;Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact. &lt;br /&gt;
-The contact's information is available for use with any valid action in Quicksilver. For example you can find a contact's postal address with Google Maps, email a file to one email address or open the contact's website.&lt;/p&gt;
-
+&lt;p&gt;Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact.&lt;/p&gt;
+&lt;p&gt;The contact's information is available for use with any valid action in Quicksilver. For example you can find a contact's postal address with Google Maps, email a file to one email address or open the contact's website.&lt;/p&gt;
 &lt;h2&gt;Actions&lt;/h2&gt;
-
-&lt;ul&gt;
-	&lt;li&gt;
-&lt;strong&gt;Show Contact&lt;/strong&gt;: Show the selected contact in Address Book&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Edit Contact&lt;/strong&gt;: Edit the selected contact in Address Book&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Add Note...&lt;/strong&gt;: Add a text note to a selected contact. This does not open Address Book.&lt;/li&gt;
-
-&lt;/ul&gt;</string>
+&lt;dl&gt;
+&lt;dt&gt;Show Contact&lt;/dt&gt;
+&lt;dd&gt;Show the selected contact in Contacts&lt;/dd&gt;
+&lt;dt&gt;Edit Contact&lt;/dt&gt;
+&lt;dd&gt;Edit the selected contact in Contacts&lt;/dd&gt;
+&lt;dt&gt;Add Note…&lt;/dt&gt;
+&lt;dd&gt;Add a text note to a selected contact. This does not open Contacts.&lt;/dd&gt;
+&lt;/dl&gt;</string>
 		<key>icon</key>
 		<string>com.apple.AddressBook</string>
 		<key>relatedBundles</key>
@@ -136,7 +130,7 @@ The contact's information is available for use with any valid action in Quicksil
 			<key>icon</key>
 			<string>com.apple.AddressBook</string>
 			<key>name</key>
-			<string>Address Book Contacts</string>
+			<string>Contacts</string>
 			<key>requiresBundle</key>
 			<string>com.apple.AddressBook</string>
 			<key>source</key>
@@ -179,7 +173,7 @@ The contact's information is available for use with any valid action in Quicksil
 				<key>icon</key>
 				<string>com.apple.addressbook</string>
 				<key>name</key>
-				<string>Address Book Contacts</string>
+				<string>Contacts</string>
 			</dict>
 		</dict>
 	</dict>
