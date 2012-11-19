@@ -1,8 +1,4 @@
-
 #import <AddressBook/AddressBook.h>
-
-#import <QSCore/QSBasicObject.h>
-
 #import "QSObject_ContactHandling.h"
 #import "ABPerson_Display.h"
 

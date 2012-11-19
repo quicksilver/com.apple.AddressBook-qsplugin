@@ -1,9 +1,3 @@
-
-
-#import <Foundation/Foundation.h>
-//#import <QSCore/QSCore.h>
-
-
 @interface QSABContactActions : QSObjectSource
 @end
 @interface QSAddressBookObjectSource : QSObjectSource{

@@ -1,8 +1,4 @@
-
-
 #import "QSABMimicActionProvider.h"
-//#import <QSCore/QSCore.h>
-//#import "QSWindow.h"
 #import <AddressBook/AddressBook.h>
 
 
