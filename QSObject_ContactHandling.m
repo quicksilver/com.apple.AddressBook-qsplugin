@@ -24,23 +24,6 @@
 	return YES;
 }
 
-- (QSObject *)objectWithAEDescriptor:(NSAppleEventDescriptor *)desc types:(NSArray *)types {
-	//desc = [desc descriptorAtIndex:1];
-	//	NSLog(@" > %@", desc = [desc paramDescriptorForKeyword:'from']);
-	//		desc = [desc descriptorAtIndex:1];
-	//	NSLog(@" > %@", desc = [desc paramDescriptorForKeyword:'seld']);
-	//	NSLog(@"str %@", [desc objectValue]);
-	//	NSLog(@"str %@", [desc objectValueAPPLE]);
-	//	
-	//	NSLog(@"str %@", [desc xobjectValue]);
-	NSLog(@"name: %@",desc);
-    
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:@"on resolve (theContacts)\rtell app \"Contacts\" to return name of theContacts\rend"];
-	desc = [script executeSubroutine:@"resolve" arguments:[NSArray arrayWithObject:desc] error:nil];
-	NSLog(@"desc %@", [desc objectValueAPPLE]);
-	return nil;
-}
-
 //- (NSString *)identifierForObject:(id <QSObject > )object {
 //    return [[object objectForType:QSABPersonType] objectAtIndex:0];
 //}
