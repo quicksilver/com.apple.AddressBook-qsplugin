@@ -59,7 +59,7 @@
 //	[distributionList addItemsWithTitles:groups];
 //}
 
-- (NSImage *)iconForEntry:(NSDictionary *)theEntry {return [[NSWorkspace sharedWorkspace]iconForFile:@"/Applications/Address Book.app"];}
+- (NSImage *)iconForEntry:(NSDictionary *)theEntry {return [[NSWorkspace sharedWorkspace]iconForFile:@"/Applications/Contacts.app"];}
 
 - (NSArray *)contactWebPages {
 	NSMutableArray *array = [NSMutableArray array];
@@ -290,12 +290,12 @@
  */
 
 - (QSObject *)showContact:(QSObject *)dObject {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@", [dObject objectForType:QSABPersonType]]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@", [dObject identifier]]]];
 	return nil;
 }
 
 - (QSObject *)editContact:(QSObject *)dObject {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@?edit", [dObject objectForType:QSABPersonType]]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"addressbook://%@?edit", [dObject identifier]]]];
 	return nil;
 }
 

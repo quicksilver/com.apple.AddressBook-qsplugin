@@ -1,8 +1,4 @@
-
 #import <AddressBook/AddressBook.h>
-
-#import <QSCore/QSBasicObject.h>
-
 #import "QSObject_ContactHandling.h"
 #import "ABPerson_Display.h"
 
@@ -17,7 +13,7 @@
 }
 
 - (BOOL)loadIconForObject:(QSObject *)object {
-	ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:@"ABPeopleUIDsPboardType"]];
+	ABPerson *person = [object ABPerson];
 	NSImage *personImage = [[NSImage alloc] initWithData:[person imageData]];
 	if (personImage) {
 		[personImage createRepresentationOfSize:NSMakeSize(32, 32)];
@@ -28,26 +24,9 @@
 	return YES;
 }
 
-- (QSObject *)objectWithAEDescriptor:(NSAppleEventDescriptor *)desc types:(NSArray *)types {
-	//desc = [desc descriptorAtIndex:1];
-	//	NSLog(@" > %@", desc = [desc paramDescriptorForKeyword:'from']);
-	//		desc = [desc descriptorAtIndex:1];
-	//	NSLog(@" > %@", desc = [desc paramDescriptorForKeyword:'seld']);
-	//	NSLog(@"str %@", [desc objectValue]);
-	//	NSLog(@"str %@", [desc objectValueAPPLE]);
-	//	
-	//	NSLog(@"str %@", [desc xobjectValue]);
-	NSLog(@"name: %@",desc);
-    
-	NSAppleScript *script = [[NSAppleScript alloc] initWithSource:@"on resolve (theContacts)\rtell app \"Address Book\" to return name of theContacts\rend"];
-	desc = [script executeSubroutine:@"resolve" arguments:[NSArray arrayWithObject:desc] error:nil];
-	NSLog(@"desc %@", [desc objectValueAPPLE]);
-	return nil;
-}
-
-- (NSString *)identifierForObject:(id <QSObject > )object {
-    return [[object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0];
-}
+//- (NSString *)identifierForObject:(id <QSObject > )object {
+//    return [[object objectForType:QSABPersonType] objectAtIndex:0];
+//}
 
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
 	if (child)
@@ -137,7 +116,7 @@
 }
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
-    ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:@"ABPeopleUIDsPboardType"]];
+    ABPerson *person = [object ABPerson];
     
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
     
@@ -163,17 +142,6 @@
     return NO;
 }
 
-- (NSString *)detailsOfObject:(QSObject *)object {
-	/*    ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:@"ABPeopleUIDsPboardType"]];
-    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
-    NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
-    if (jobTitle && companyName)
-	return [NSString stringWithFormat:@"%@, %@", jobTitle, companyName];
-    return nil;
-    return [[object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0]; */
-	return [[[ABAddressBook sharedAddressBook] recordForUniqueId:[object objectForType:@"ABPeopleUIDsPboardType"]] jobTitle];
-}
-
 @end
 
 
@@ -186,14 +154,13 @@
 // - -NSString *formalName(NSString *title, NSString *firstName, NSString *middleName, NSString *lastName, NSString *suffix) {
 //NSMutableString *formalName=
 
-- (NSString *)nameForRecord:(ABRecord *)record {
-    return nil;
+- (ABPerson *)ABPerson
+{
+    return (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[self identifier]];
 }
 
-
 - (void)loadContactInfo {
-	ABPerson *person = (ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[[self arrayForType:@"ABPeopleUIDsPboardType"]lastObject]];
-	
+	ABPerson *person = [self ABPerson];
 	
 	NSString *newName = nil;
 	NSString *newLabel = nil;
@@ -205,7 +172,8 @@
   
 	NSString *title = [person valueForProperty:kABTitleProperty];
 	NSString *suffix = [person valueForProperty:kABSuffixProperty];
-	
+    NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
+    NSString *companyName = [person valueForProperty:kABOrganizationProperty];
 	
 	newLabel = formattedContactName(firstName, lastName, middleName, title, suffix);
 	newName = [person displayName];
@@ -215,7 +183,7 @@
 	if (newLabel)
 		[self setLabel:newLabel];
 	
-	[self setPrimaryType:@"ABPeopleUIDsPboardType"];
+	[self setPrimaryType:QSABPersonType];
 	
 	NSString *group = [[NSUserDefaults standardUserDefaults]stringForKey:@"QSABPreferredDistribution"];
 	if (!group)group = @"Quicksilver";
@@ -233,6 +201,21 @@
 		[self setObject:address forType:QSEmailAddressType];
     }
 	
+    NSMutableArray *detailsParts = [[NSMutableArray alloc] init];
+    if (jobTitle) {
+        [detailsParts addObject:jobTitle];
+    }
+    if (companyName) {
+        [detailsParts addObject:companyName];
+    }
+    if ([detailsParts count]) {
+        // show title, company, or "title, company" if both are present
+        [self setDetails:[detailsParts componentsJoinedByString:@", "]];
+    } else {
+        // prevent details from showing at all by setting them equal to name
+        [self setDetails:[self displayName]];
+    }
+    [detailsParts release];
 	/*	NSArray *aimAccounts = [person valueForProperty:kABAIMInstantProperty];
 	if ([aimAccounts count])
 		[self setObject:[NSString stringWithFormat:@"AIM:%@", [aimAccounts valueAtIndex:0]] forType:QSIMAccountType]; */
@@ -265,7 +248,7 @@
 - (id)initWithPerson:(ABPerson *)person {
 	//id object = [QSObject objectWithIdentifier:[person uniqueId]];
     if ((self = [self init])) {
-        [data setObject:[NSArray arrayWithObject:[person uniqueId]] forKey:@"ABPeopleUIDsPboardType"];
+        [data setObject:[person uniqueId] forKey:QSABPersonType];
 		//[QSObject registerObject:self withIdentifier:[self identifier]];
         [self setIdentifier:[person uniqueId]];
 		[self loadContactInfo];

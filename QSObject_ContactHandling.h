@@ -15,7 +15,7 @@ NSString *formattedContactName(NSString *firstName, NSString *lastName, NSString
 + (id)objectWithPerson:(ABPerson *)person;
 //+ (id)objectWithString:(NSString *)string name:(NSString *)aName type:(NSString *)aType;
 //- (id)initWithString:(NSString *)string name:(NSString *)aName type:(NSString *)aType;
-- (NSString *)nameForRecord:(ABRecord *)record;
+- (ABPerson *)ABPerson;
 - (id)initWithPerson:(ABPerson *)person;
 - (void)loadContactInfo;
 - (BOOL)useDefaultIMFromPerson:(ABPerson *)person;

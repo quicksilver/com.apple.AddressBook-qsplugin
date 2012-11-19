@@ -1,8 +1,4 @@
-
-
 #import "QSABMimicActionProvider.h"
-//#import <QSCore/QSCore.h>
-//#import "QSWindow.h"
 #import <AddressBook/AddressBook.h>
 
 
@@ -51,7 +47,7 @@
 
 - (QSObject *)addData:(QSObject *)dObject toContact:(QSObject *)iObject{
 	//NSLog(@"%@,,,",[iObject objectForType:@"ABPeopleUIDsPboardType"]);
-	ABPerson *thePerson=(ABPerson *)[[ABAddressBook sharedAddressBook] recordForUniqueId:[iObject objectForType:@"ABPeopleUIDsPboardType"]];
+	ABPerson *thePerson = [iObject ABPerson];
 
 	NSString *string=[dObject stringValue];
 	
