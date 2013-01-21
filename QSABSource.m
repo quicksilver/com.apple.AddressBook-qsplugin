@@ -173,6 +173,9 @@
     BOOL includeContacts = [defaults boolForKey:@"QSABIncludeContacts"];
     
     people = [book people];
+    people = [people sortedArrayUsingComparator:^NSComparisonResult(ABPerson *person1, ABPerson *person2) {
+        return [[person1 valueForProperty:kABLastNameProperty] caseInsensitiveCompare:[person2 valueForProperty:kABLastNameProperty]];
+    }];
 
     id thePerson;
     for(thePerson in people) {
