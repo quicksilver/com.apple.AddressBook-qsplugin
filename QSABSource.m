@@ -113,8 +113,6 @@
 	[super invalidateSelf];
 }
 
-- (BOOL)scanInMainThread { return YES;}
-
 - (BOOL)loadChildrenForObject:(QSObject *)object {
   NSArray *abchildren = [self objectsForEntry:nil];
   [object setChildren:abchildren];
