@@ -161,7 +161,7 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
 	NSMutableArray *array = [NSMutableArray array];
     
-    ABAddressBook *book = [ABAddressBook addressBook];
+    ABAddressBook *book = [ABAddressBook sharedAddressBook];
     
     NSArray *people = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
