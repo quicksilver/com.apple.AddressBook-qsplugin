@@ -101,42 +101,6 @@
 	return array;
 }
 - (void) addressBookChanged:(NSNotification *)notif {
-	NSArray *inserted = [[notif userInfo] objectForKey:kABInsertedRecords];
-	NSArray *updated = [[notif userInfo] objectForKey:kABUpdatedRecords];
-	NSArray *deleted = [[notif userInfo] objectForKey:kABDeletedRecords];
-	NSUInteger count;
-	QSObject *thisPerson;
-	//	if (VERBOSE) NSLog(@"AB %d %d %d", [inserted count], [updated count], [deleted count]);
-	if ((count = [updated count])) {
-		NSEnumerator *objEnum = [[contactDictionary objectsForKeys:updated notFoundMarker:[NSNull null]]objectEnumerator];
-		QSObject *person = nil;
-		while ((person = [objEnum nextObject])) {
-			if ([person isKindOfClass:[QSObject class]])
-				[person loadContactInfo];
-		}
-		
-	} 
-	if ((count = [inserted count])) {
-		//NSEnumerator *idEnum = [inserted objectEnumerator];
-		ABAddressBook *book = [ABAddressBook addressBook];
-		
-		ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:@"Quicksilver" comparison:kABPrefixMatchCaseInsensitive];
-		ABGroup *qsGroup = [[book recordsMatchingSearchElement:groupSearch]lastObject];
-		
-		for (NSString *thisID in inserted) {
-			ABPerson *person = (ABPerson *)[book recordForUniqueId:thisID];
-			
-			if ([[qsGroup members]containsObject:person]) {
-				thisPerson = [QSObject objectWithPerson:person];
-				[contactDictionary setObject:thisPerson forKey:thisID];
-			}
-		}
-		
-	} 
-	if ((count = [deleted count])) {
-		[contactDictionary removeObjectsForKeys:deleted];
-	}
-	
 	[self invalidateSelf];
 }
 
@@ -148,7 +112,6 @@
 	addressBookModDate = [NSDate timeIntervalSinceReferenceDate];
 	[super invalidateSelf];
 }
-
 
 - (BOOL)scanInMainThread { return YES;}
 
