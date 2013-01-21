@@ -144,7 +144,7 @@
 	[contactlings addObjectsFromArray:[QSContactObjectHandler URLObjectsForPerson:person asChild:YES]];
 	
 	NSString *note = [person valueForProperty:kABNoteProperty];
-    if (note) {
+    if (note && [note length]) {
         QSObject *obj = [QSObject objectWithString:note];
         if (obj) {
             [obj setParentID:[object identifier]];
