@@ -19,13 +19,11 @@
 	[array addObject:@"All Contacts"];
 	
 	ABAddressBook *book = [ABAddressBook addressBook];
-	NSMutableArray *groups = [[book groups] mutableCopy];
-	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
+	NSMutableArray *groups = [[[[book groups] valueForKey:kABGroupNameProperty] mutableCopy] autorelease];
 	[groups removeObject:@"Me"];
 	[groups sortUsingSelector:@selector(caseInsensitiveCompare:)];
 	
 	[array addObjectsFromArray:groups];
-    [groups release];
 	return array;
 }
 
@@ -35,13 +33,11 @@
 	[array addObject:@"None"];
 	
 	ABAddressBook *book = [ABAddressBook addressBook];
-	NSMutableArray *groups = [[book groups] mutableCopy];
-	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
+	NSMutableArray *groups = [[[[book groups] valueForKey:kABGroupNameProperty] mutableCopy] autorelease];
 	[groups removeObject:@"Me"];
 	[groups sortUsingSelector:@selector(caseInsensitiveCompare:)];
 	
 	[array addObjectsFromArray:groups];
-    [groups release];
 	return array;
 }
 // - (void)refreshGroupList {
