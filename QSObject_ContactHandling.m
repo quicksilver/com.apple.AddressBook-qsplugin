@@ -198,6 +198,7 @@
 	newName = [person displayName];
 	
 	[self setName:newName];
+    [self setObject:lastName forMeta:@"surname"];
 	
 	if (newLabel)
 		[self setLabel:newLabel];
