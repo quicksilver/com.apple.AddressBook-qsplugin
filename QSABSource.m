@@ -109,6 +109,11 @@
 	[super invalidateSelf];
 }
 
+- (BOOL)objectHasValidChildren:(QSObject *)object
+{
+    return YES;
+}
+
 - (BOOL)loadChildrenForObject:(QSObject *)object {
   NSArray *abchildren = [self objectsForEntry:nil];
   [object setChildren:abchildren];
