@@ -115,9 +115,16 @@
 }
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
-  NSArray *abchildren = [self objectsForEntry:nil];
-  [object setChildren:abchildren];
-  return YES;
+    NSArray *abchildren = [QSLib scoredArrayForType:QSABPersonType];
+    if (![abchildren count]) {
+        abchildren = [self objectsForEntry:nil];
+    }
+    // sort contacts by last name
+    abchildren = [abchildren sortedArrayUsingComparator:^NSComparisonResult(QSObject *person1, QSObject *person2) {
+        return [[person1 objectForMeta:@"surname"] caseInsensitiveCompare:[person2 objectForMeta:@"surname"]];
+    }];
+    [object setChildren:abchildren];
+    return YES;
 }
 
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
@@ -135,9 +142,6 @@
     BOOL includeContacts = [defaults boolForKey:@"QSABIncludeContacts"];
     
     people = [book people];
-    people = [people sortedArrayUsingComparator:^NSComparisonResult(ABPerson *person1, ABPerson *person2) {
-        return [[person1 valueForProperty:kABLastNameProperty] caseInsensitiveCompare:[person2 valueForProperty:kABLastNameProperty]];
-    }];
 
     id thePerson;
     for(thePerson in people) {
