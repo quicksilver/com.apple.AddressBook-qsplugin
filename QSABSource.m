@@ -68,7 +68,7 @@
 		NSString *homePage = [thePerson valueForProperty:kABHomePageProperty];
 		if (!homePage)continue;
 		
-		NSString *name = @"(no name)";
+		NSString *name = NSLocalizedStringFromTableInBundle(@"(no name)", nil, [NSBundle bundleForClass:[self class]], nil);
 		NSString *namePiece;
 		
 		BOOL showAsCompany = [[thePerson valueForProperty:kABPersonFlags] integerValue] & kABShowAsMask & kABShowAsCompany;
