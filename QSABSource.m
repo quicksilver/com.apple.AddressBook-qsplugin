@@ -19,13 +19,11 @@
 	[array addObject:@"All Contacts"];
 	
 	ABAddressBook *book = [ABAddressBook addressBook];
-	NSMutableArray *groups = [[book groups] mutableCopy];
-	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
+	NSMutableArray *groups = [[[[book groups] valueForKey:kABGroupNameProperty] mutableCopy] autorelease];
 	[groups removeObject:@"Me"];
 	[groups sortUsingSelector:@selector(caseInsensitiveCompare:)];
 	
 	[array addObjectsFromArray:groups];
-    [groups release];
 	return array;
 }
 
@@ -35,13 +33,11 @@
 	[array addObject:@"None"];
 	
 	ABAddressBook *book = [ABAddressBook addressBook];
-	NSMutableArray *groups = [[book groups] mutableCopy];
-	groups = [[[groups valueForKey:kABGroupNameProperty]mutableCopy]autorelease];
+	NSMutableArray *groups = [[[[book groups] valueForKey:kABGroupNameProperty] mutableCopy] autorelease];
 	[groups removeObject:@"Me"];
 	[groups sortUsingSelector:@selector(caseInsensitiveCompare:)];
 	
 	[array addObjectsFromArray:groups];
-    [groups release];
 	return array;
 }
 // - (void)refreshGroupList {
@@ -72,10 +68,10 @@
 		NSString *homePage = [thePerson valueForProperty:kABHomePageProperty];
 		if (!homePage)continue;
 		
-		NSString *name = @"(no name)";
+		NSString *name = NSLocalizedStringFromTableInBundle(@"(no name)", nil, [NSBundle bundleForClass:[self class]], nil);
 		NSString *namePiece;
 		
-		BOOL showAsCompany = [[thePerson valueForProperty:kABPersonFlags] intValue] & kABShowAsMask & kABShowAsCompany;
+		BOOL showAsCompany = [[thePerson valueForProperty:kABPersonFlags] integerValue] & kABShowAsMask & kABShowAsCompany;
 		if (showAsCompany) {
 			if ((namePiece = [thePerson valueForProperty:kABOrganizationProperty]))
 				name = namePiece;
@@ -91,8 +87,9 @@
 		}
 		QSObject *object = [QSObject URLObjectWithURL:homePage
                                           title:name];
-		
-		[array addObject:object];
+		if (object) {
+            [array addObject:object];
+        }
 	}
 	NSSortDescriptor *nameDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES] autorelease];
   [array sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
@@ -100,44 +97,6 @@
 	return array;
 }
 - (void) addressBookChanged:(NSNotification *)notif {
-	NSArray *inserted = [[notif userInfo] objectForKey:kABInsertedRecords];
-	NSArray *updated = [[notif userInfo] objectForKey:kABUpdatedRecords];
-	NSArray *deleted = [[notif userInfo] objectForKey:kABDeletedRecords];
-	int count, i;
-	QSObject *thisPerson;
-	NSString *thisID;
-	//	if (VERBOSE) NSLog(@"AB %d %d %d", [inserted count], [updated count], [deleted count]);
-	if ((count = [updated count])) {
-		NSEnumerator *objEnum = [[contactDictionary objectsForKeys:updated notFoundMarker:[NSNull null]]objectEnumerator];
-		QSObject *person = nil;
-		while ((person = [objEnum nextObject])) {
-			if ([person isKindOfClass:[QSObject class]])
-				[person loadContactInfo];
-		}
-		
-	} 
-	if ((count = [inserted count])) {
-		//NSEnumerator *idEnum = [inserted objectEnumerator];
-		ABAddressBook *book = [ABAddressBook addressBook];
-		
-		ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:@"Quicksilver" comparison:kABPrefixMatchCaseInsensitive];
-		ABGroup *qsGroup = [[book recordsMatchingSearchElement:groupSearch]lastObject];
-		
-		for (i = 0; i < count; i++) {
-			thisID = [inserted objectAtIndex:i];
-			ABPerson *person = (ABPerson *)[book recordForUniqueId:thisID];
-			
-			if ([[qsGroup members]containsObject:person]) {
-				thisPerson = [QSObject objectWithPerson:person];
-				[contactDictionary setObject:thisPerson forKey:thisID];
-			}
-		}
-		
-	} 
-	if ((count = [deleted count])) {
-		[contactDictionary removeObjectsForKeys:deleted];
-	}
-	
 	[self invalidateSelf];
 }
 
@@ -150,19 +109,28 @@
 	[super invalidateSelf];
 }
 
-
-- (BOOL)scanInMainThread { return YES;}
+- (BOOL)objectHasValidChildren:(QSObject *)object
+{
+    return YES;
+}
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
-  NSArray *abchildren = [self objectsForEntry:nil];
-  [object setChildren:abchildren];
-  return YES;
+    NSArray *abchildren = [QSLib scoredArrayForType:QSABPersonType];
+    if (![abchildren count]) {
+        abchildren = [self objectsForEntry:nil];
+    }
+    // sort contacts by last name
+    abchildren = [abchildren sortedArrayUsingComparator:^NSComparisonResult(QSObject *person1, QSObject *person2) {
+        return [[person1 objectForMeta:@"surname"] caseInsensitiveCompare:[person2 objectForMeta:@"surname"]];
+    }];
+    [object setChildren:abchildren];
+    return YES;
 }
 
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
 	NSMutableArray *array = [NSMutableArray array];
     
-    ABAddressBook *book = [ABAddressBook addressBook];
+    ABAddressBook *book = [ABAddressBook sharedAddressBook];
     
     NSArray *people = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

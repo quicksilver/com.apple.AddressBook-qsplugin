@@ -28,6 +28,10 @@
 //    return [[object objectForType:QSABPersonType] objectAtIndex:0];
 //}
 
+- (NSString *)identifierForObject:(id <QSObject > )object {
+    return [[(QSObject *)object objectForType:@"ABPeopleUIDsPboardType"] objectAtIndex:0];
+}
+
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
 	if (child)
 		return [[NSString stringWithFormat:@"%@ %@", label, type] capitalizedString];
@@ -37,15 +41,17 @@
 
 + (NSArray *)URLObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
 	ABMultiValue *urls = [person valueForProperty:kABURLsProperty];
-	int i;
+	NSUInteger i;
 	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for (i = 0; i < [urls count]; i++) {
 		NSString *address = [urls valueAtIndex:i];
 		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([urls labelAtIndex:i]) type:ABLocalizedPropertyOrLabel(kABURLsProperty) asChild:asChild];
 
 		QSObject *obj = [QSObject URLObjectWithURL:address title:name];
-        [obj setParentID:[person uniqueId]];
-        [contactlings addObject:obj];
+        if (obj) {
+            [obj setParentID:[person uniqueId]];
+            [contactlings addObject:obj];
+        }
 	}
 	
 	return contactlings;
@@ -54,7 +60,7 @@
 + (NSArray *)emailObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
 	
 	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	int i;
+	NSUInteger i;
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for (i = 0; i < [emailAddresses count]; i++) {
 		NSString *address = [emailAddresses valueAtIndex:i];
@@ -62,8 +68,10 @@
 
 		QSObject *obj = [QSObject URLObjectWithURL:[NSString stringWithFormat:@"mailto:%@", address]
                                              title:name];
-        [obj setParentID:[person uniqueId]];
-        [contactlings addObject:obj];
+        if (obj) {
+            [obj setParentID:[person uniqueId]];
+            [contactlings addObject:obj];
+        }
 	}
 	return contactlings;
 }
@@ -71,14 +79,16 @@
 + (NSArray *)phoneObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {	
 	ABMultiValue *phoneNumbers = [person valueForProperty:kABPhoneProperty];
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	int i;
+	NSUInteger i;
 	for (i = 0; i < [phoneNumbers count]; i++) {
 		NSString *address = [phoneNumbers valueAtIndex:i];
 		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([phoneNumbers labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABPhoneProperty) lowercaseString] asChild:asChild];
         QSObject * obj = [QSObject objectWithString:address name:name type:QSContactPhoneType];
-        [obj setParentID:[person uniqueId]];
         
-		[contactlings addObject:obj];
+        if (obj) {
+            [obj setParentID:[person uniqueId]];
+            [contactlings addObject:obj];
+        }
 	}
 	return contactlings;
 }
@@ -87,14 +97,18 @@
 + (NSArray *)addressObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
     ABMultiValue *addresses = [person valueForProperty:kABAddressProperty];
 	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	int i;
+	NSUInteger i;
 	for (i = 0; i < [addresses count]; i++) {
         ABMultiValue *address = [addresses valueAtIndex:i];
         NSString *string = [[[ABAddressBook sharedAddressBook] formattedAddressFromDictionary:(NSDictionary *)address] string];
 		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([addresses labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABAddressProperty) lowercaseString] asChild:asChild];
+        
         QSObject * obj = [QSObject objectWithString:string name:name type:QSContactAddressType];
-        [obj setParentID:[person uniqueId]];
-        [contactlings addObject:obj];
+        
+        if (obj) {
+            [obj setParentID:[person uniqueId]];
+            [contactlings addObject:obj];
+        }
     }
 	return contactlings;
 }
@@ -104,12 +118,15 @@
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	for(NSString * type in imTypes) {
 		ABMultiValue *ims = [person valueForProperty:type];
-		int i;
+		NSUInteger i;
 		for (i = 0; i < [ims count]; i++) {
 			NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([ims labelAtIndex:i]) type:ABLocalizedPropertyOrLabel(type) asChild:asChild];
 			QSObject *obj = [QSObject objectWithString:[ims valueAtIndex:i] name:name type:QSIMAccountType];
-            [obj setParentID:[person uniqueId]];
-            [contactlings addObject:obj];
+            
+            if (obj) {
+                [obj setParentID:[person uniqueId]];
+                [contactlings addObject:obj];
+            }
 		}
 	}
 	return contactlings;
@@ -127,10 +144,12 @@
 	[contactlings addObjectsFromArray:[QSContactObjectHandler URLObjectsForPerson:person asChild:YES]];
 	
 	NSString *note = [person valueForProperty:kABNoteProperty];
-    if (note) {
+    if (note && [note length]) {
         QSObject *obj = [QSObject objectWithString:note];
-        [obj setParentID:[object identifier]];
-        [contactlings addObject:obj];
+        if (obj) {
+            [obj setParentID:[object identifier]];
+            [contactlings addObject:obj];
+        }
     }
 	
     [contactlings makeObjectsPerformSelector:@selector(setParentID:) withObject:[object identifier]];
@@ -179,6 +198,7 @@
 	newName = [person displayName];
 	
 	[self setName:newName];
+    [self setObject:lastName forMeta:@"surname"];
 	
 	if (newLabel)
 		[self setLabel:newLabel];
@@ -194,7 +214,7 @@
 	
 	NSString *distID = [qsGroup distributionIdentifierForProperty:kABEmailProperty person:person];
 	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	int multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
+	NSUInteger multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
 	NSString *address = [emailAddresses valueAtIndex:multiIndex];
 
 	if (address) {

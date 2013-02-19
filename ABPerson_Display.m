@@ -14,7 +14,7 @@
   
 	if (![self isKindOfClass:[ABPerson class]]) return NO;
   
-	int nameOrderingFlags = [[self valueForProperty:kABPersonFlags] intValue] & kABNameOrderingMask;
+	NSInteger nameOrderingFlags = [[self valueForProperty:kABPersonFlags] integerValue] & kABNameOrderingMask;
 	
 	if (nameOrderingFlags == kABDefaultNameOrdering) {
 		nameOrderingFlags = [[ABAddressBook sharedAddressBook] defaultNameOrdering];
@@ -27,7 +27,7 @@
   NSString *first = nil, *last = nil;
 
   if ([self isKindOfClass:[ABPerson class]]) { // ABMailRecent doesn't understand these properties
-    int flags = [[self valueForProperty:kABPersonFlags] intValue];
+    NSInteger flags = [[self valueForProperty:kABPersonFlags] integerValue];
     
     // it's a company, just return the company name
     if (flags & kABShowAsMask & kABShowAsCompany)
@@ -59,7 +59,7 @@
 	if (![self isKindOfClass:[ABPerson class]]) return nil;
   
 	// companies do not have job titles
-  if ([[self valueForProperty:kABPersonFlags] intValue] & kABShowAsMask & kABShowAsCompany)
+  if ([[self valueForProperty:kABPersonFlags] integerValue] & kABShowAsMask & kABShowAsCompany)
 		return nil;
 	
 	NSString *title		= [self valueForProperty:kABTitleProperty],
