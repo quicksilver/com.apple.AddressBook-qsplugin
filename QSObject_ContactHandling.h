@@ -18,6 +18,8 @@ NSString *formattedContactName(NSString *firstName, NSString *lastName, NSString
 - (ABPerson *)ABPerson;
 - (id)initWithPerson:(ABPerson *)person;
 - (void)loadContactInfo;
+- (void)loadContactInfo:(ABPerson *)person;
+
 - (BOOL)useDefaultIMFromPerson:(ABPerson *)person;
 - (BOOL)useDefaultEmailFromPerson:(ABPerson *)person;
 @end
