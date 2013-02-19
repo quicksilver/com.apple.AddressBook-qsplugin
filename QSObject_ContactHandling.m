@@ -15,9 +15,18 @@
 - (BOOL)loadIconForObject:(QSObject *)object {
 	ABPerson *person = [object ABPerson];
 	NSImage *personImage = [[NSImage alloc] initWithData:[person imageData]];
+    if (!personImage && [NSApplication isMountainLion]) {
+        // ML and above: if no icon exists, attempt to get one from a linked person (i.e. another source - Fb, Skype etc.)
+        for (ABPerson *eachLinkedPerson in [person linkedPeople]) {
+            if (eachLinkedPerson != person) {
+                personImage = [[NSImage alloc] initWithData:[eachLinkedPerson imageData]];
+                if (personImage) {
+                    break;
+                }
+            }
+        }
+    }
 	if (personImage) {
-		[personImage createRepresentationOfSize:NSMakeSize(32, 32)];
-		[personImage createRepresentationOfSize:NSMakeSize(16, 16)];
 		[object setIcon:personImage];
 		[personImage release];
 	}
@@ -33,103 +42,186 @@
 }
 
 + (NSString *)contactlingNameForPerson:(ABPerson *)person label:(NSString *)label type:(NSString *)type asChild:(BOOL)child {
+    if (![label length]) {
+        // label has no length, so the details have most likely come from an IM service, attenpt to use the IMService name as the label
+        ABMultiValue *imDeets = [person valueForProperty:kABInstantMessageProperty];
+        if (imDeets) {
+            label = [[imDeets valueAtIndex:[imDeets indexForIdentifier:[imDeets primaryIdentifier]]] objectForKey:kABInstantMessageServiceKey];
+        }
+    }
+    label = ABLocalizedPropertyOrLabel(label);
+    if ([type length]) {
+        type = ABLocalizedPropertyOrLabel(type);
+    }
 	if (child)
-		return [[NSString stringWithFormat:@"%@ %@", label, type] capitalizedString];
+		return [[NSString stringWithFormat:@"%@%@", label, [type length] ? [NSString stringWithFormat:@" %@",type] : @""] capitalizedString];
 	else
-		return [NSString stringWithFormat:@"%@'s %@ %@", [person displayName], label, type];
+		return [NSString stringWithFormat:@"%@'s %@%@", [person displayName], label, [type length] ? [NSString stringWithFormat:@" %@",type] : @""];
 }
 
 + (NSArray *)URLObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
-	ABMultiValue *urls = [person valueForProperty:kABURLsProperty];
-	NSUInteger i;
-	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	for (i = 0; i < [urls count]; i++) {
-		NSString *address = [urls valueAtIndex:i];
-		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([urls labelAtIndex:i]) type:ABLocalizedPropertyOrLabel(kABURLsProperty) asChild:asChild];
-
-		QSObject *obj = [QSObject URLObjectWithURL:address title:name];
-        if (obj) {
-            [obj setParentID:[person uniqueId]];
-            [contactlings addObject:obj];
+    NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
+    NSArray *peeps = nil;
+    if ([NSApplication isMountainLion]) {
+        peeps = [person linkedPeople];
+    } else {
+        peeps = [NSArray arrayWithObject:person];
+    }
+    NSMutableArray *usedURLs = [NSMutableArray array];
+    for (ABPerson *thePerson in peeps) {
+        ABMultiValue *urls = [thePerson valueForProperty:kABURLsProperty];
+        NSUInteger i;
+        for (i = 0; i < [urls count]; i++) {
+            NSString *url = [urls valueAtIndex:i];
+            if ([usedURLs containsObject:url]) {
+                continue;
+            }
+            [usedURLs addObject:url];
+            NSString *name = [self contactlingNameForPerson:thePerson label:[urls labelAtIndex:i] type:kABURLsProperty asChild:asChild];
+            
+            QSObject *obj = [QSObject URLObjectWithURL:url title:name];
+            if (obj) {
+                [obj setParentID:[person uniqueId]];
+                [contactlings addObject:obj];
+            }
         }
-	}
-	
+    }
 	return contactlings;
 }
 
 + (NSArray *)emailObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
-	
-	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	NSUInteger i;
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	for (i = 0; i < [emailAddresses count]; i++) {
-		NSString *address = [emailAddresses valueAtIndex:i];
-		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([emailAddresses labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABEmailProperty) lowercaseString] asChild:asChild];
 
-		QSObject *obj = [QSObject URLObjectWithURL:[NSString stringWithFormat:@"mailto:%@", address]
-                                             title:name];
-        if (obj) {
-            [obj setParentID:[person uniqueId]];
-            [contactlings addObject:obj];
+	NSUInteger i;
+    NSArray *peeps = nil;
+    if ([NSApplication isMountainLion]) {
+        peeps = [person linkedPeople];
+    } else {
+        peeps = [NSArray arrayWithObject:person];
+    }
+    NSMutableArray *usedEmails = [NSMutableArray array];
+    
+    for (ABPerson *thePerson in peeps) {
+        ABMultiValue *emailAddresses = [thePerson valueForProperty:kABEmailProperty];
+        for (i = 0; i < [emailAddresses count]; i++) {
+            NSString *address = [emailAddresses valueAtIndex:i];
+            if ([usedEmails containsObject:address]) {
+                continue;
+            }
+            [usedEmails addObject:address];
+            NSString *name = [self contactlingNameForPerson:thePerson label:[emailAddresses labelAtIndex:i] type:kABEmailProperty asChild:asChild];
+            
+            QSObject *obj = [QSObject URLObjectWithURL:[NSString stringWithFormat:@"mailto:%@", address]
+                                                 title:name];
+            if (obj) {
+                [obj setParentID:[person uniqueId]];
+                [contactlings addObject:obj];
+            }
         }
-	}
+    }
+
 	return contactlings;
 }
 
-+ (NSArray *)phoneObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {	
-	ABMultiValue *phoneNumbers = [person valueForProperty:kABPhoneProperty];
++ (NSArray *)phoneObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
     NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	NSUInteger i;
-	for (i = 0; i < [phoneNumbers count]; i++) {
-		NSString *address = [phoneNumbers valueAtIndex:i];
-		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([phoneNumbers labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABPhoneProperty) lowercaseString] asChild:asChild];
-        QSObject * obj = [QSObject objectWithString:address name:name type:QSContactPhoneType];
-        
-        if (obj) {
-            [obj setParentID:[person uniqueId]];
-            [contactlings addObject:obj];
+    
+    NSMutableArray *usedPhoneNos = [NSMutableArray array];
+    NSArray *peeps = nil;
+    if ([NSApplication isMountainLion]) {
+        peeps = [person linkedPeople];
+    } else {
+        peeps = [NSArray arrayWithObject:person];
+    }
+    
+    for (ABPerson *thePerson in peeps) {
+        ABMultiValue *phoneNumbers = [thePerson valueForProperty:kABPhoneProperty];
+        NSUInteger i;
+        for (i = 0; i < [phoneNumbers count]; i++) {
+            NSString *address = [phoneNumbers valueAtIndex:i];
+            if ([usedPhoneNos containsObject:address]) {
+                continue;
+            }
+            [usedPhoneNos addObject:address];
+            NSString *name = [self contactlingNameForPerson:thePerson label:[phoneNumbers labelAtIndex:i] type:kABAddressProperty asChild:asChild];
+            QSObject * obj = [QSObject objectWithString:address name:name type:QSContactPhoneType];
+            
+            if (obj) {
+                [obj setParentID:[person uniqueId]];
+                [contactlings addObject:obj];
+            }
         }
-	}
+    }
+
+
 	return contactlings;
 }
 
 
 + (NSArray *)addressObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
-    ABMultiValue *addresses = [person valueForProperty:kABAddressProperty];
 	NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
 	NSUInteger i;
-	for (i = 0; i < [addresses count]; i++) {
-        ABMultiValue *address = [addresses valueAtIndex:i];
-        NSString *string = [[[ABAddressBook sharedAddressBook] formattedAddressFromDictionary:(NSDictionary *)address] string];
-		NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([addresses labelAtIndex:i]) type:[ABLocalizedPropertyOrLabel(kABAddressProperty) lowercaseString] asChild:asChild];
-        
-        QSObject * obj = [QSObject objectWithString:string name:name type:QSContactAddressType];
-        
-        if (obj) {
-            [obj setParentID:[person uniqueId]];
-            [contactlings addObject:obj];
+    NSMutableArray *usedAddresses = [NSMutableArray array];
+
+    NSArray *peeps = nil;
+    if ([NSApplication isMountainLion]) {
+        peeps = [person linkedPeople];
+    } else {
+        peeps = [NSArray arrayWithObject:person];
+    }
+    
+    for (ABPerson *thePerson in peeps) {
+        ABMultiValue *addresses = [thePerson valueForProperty:kABAddressProperty];
+        for (i = 0; i < [addresses count]; i++) {
+            ABMultiValue *address = [addresses valueAtIndex:i];
+            NSString *string = [[[ABAddressBook sharedAddressBook] formattedAddressFromDictionary:(NSDictionary *)address] string];
+            if ([usedAddresses containsObject:string]) {
+                continue;
+            }
+            [usedAddresses addObject:string];
+            NSString *name = [self contactlingNameForPerson:thePerson label:[addresses labelAtIndex:i] type:kABAddressProperty asChild:asChild];
+            
+            QSObject * obj = [QSObject objectWithString:string name:name type:QSContactAddressType];
+            
+            if (obj) {
+                [obj setParentID:[person uniqueId]];
+                [contactlings addObject:obj];
+            }
         }
     }
 	return contactlings;
 }
 
 + (NSArray *)imObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild {
-	NSArray *imTypes = [NSArray arrayWithObjects:kABAIMInstantProperty, kABJabberInstantProperty, kABMSNInstantProperty, kABYahooInstantProperty, kABICQInstantProperty, nil];
-    NSMutableArray *contactlings = [NSMutableArray arrayWithCapacity:1];
-	for(NSString * type in imTypes) {
-		ABMultiValue *ims = [person valueForProperty:type];
-		NSUInteger i;
-		for (i = 0; i < [ims count]; i++) {
-			NSString *name = [self contactlingNameForPerson:person label:ABLocalizedPropertyOrLabel([ims labelAtIndex:i]) type:ABLocalizedPropertyOrLabel(type) asChild:asChild];
-			QSObject *obj = [QSObject objectWithString:[ims valueAtIndex:i] name:name type:QSIMAccountType];
+    NSMutableSet *contactlings = [NSMutableArray arrayWithCapacity:1];
+    NSUInteger i;
+    NSMutableArray *usernames = [NSMutableArray array];
+    NSArray *peeps = nil;
+    if ([NSApplication isMountainLion]) {
+        peeps = [person linkedPeople];
+    } else {
+        peeps = [NSArray arrayWithObject:person];
+    }
+
+    for (ABPerson *thePerson in peeps) {
+        ABMultiValue *ims = [person valueForProperty:kABInstantMessageProperty];
+        for (i = 0; i < [ims count]; i++) {
+            NSString *username = [[ims valueAtIndex:i] objectForKey:kABInstantMessageUsernameKey];
+            if ([usernames containsObject:username]) {
+                continue;
+            }
+            [usernames addObject:username];
+            NSString *name = [self contactlingNameForPerson:person label:[ims labelAtIndex:i] type:@""  asChild:asChild];
+            QSObject *obj = [QSObject objectWithString:username name:name type:QSIMAccountType];
             
             if (obj) {
                 [obj setParentID:[person uniqueId]];
                 [contactlings addObject:obj];
             }
-		}
-	}
-	return contactlings;
+        }
+    }
+
+	return [contactlings allObjects];
 }
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
@@ -179,7 +271,13 @@
 }
 
 - (void)loadContactInfo {
-	ABPerson *person = [self ABPerson];
+    [self loadContactInfo:nil];
+}
+
+- (void)loadContactInfo:(ABPerson *)person {
+    if (person == nil) {
+        person = [self ABPerson];
+    }
 	
 	NSString *newName = nil;
 	NSString *newLabel = nil;
@@ -193,7 +291,7 @@
 	NSString *suffix = [person valueForProperty:kABSuffixProperty];
     NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
     NSString *companyName = [person valueForProperty:kABOrganizationProperty];
-	
+
 	newLabel = formattedContactName(firstName, lastName, middleName, title, suffix);
 	newName = [person displayName];
 	
@@ -252,17 +350,26 @@
  * @result YES if a suitable IM account was found, NO otherwise.
  */
 - (BOOL)useDefaultIMFromPerson:(ABPerson *)person {
-	ABMultiValue *accounts;
-	NSDictionary *imProperties = [NSDictionary dictionaryWithObjectsAndKeys:@"AIM:", kABAIMInstantProperty, @"MSN:", kABMSNInstantProperty, @"Yahoo!:", kABYahooInstantProperty, @"ICQ:", kABICQInstantProperty, @"Jabber:", kABJabberInstantProperty, nil];
-	
-	foreachkey (property, prefix, imProperties) {
-		accounts = [person valueForProperty:property];
-		if ([accounts count]) {
-			[self setObject:[prefix stringByAppendingString:[accounts valueAtIndex:0]] forType:QSIMAccountType];
-			return YES;
-		}
-	}
-	return NO;
+	ABMultiValue *im = [person valueForProperty:kABInstantMessageProperty];
+    // [ABMultiValue propertyType] == kABMultiDictionaryProperty (= kABMultiValueMask | kABDictionaryProperty)
+    if (!im) {
+        return NO;
+    }
+    NSDictionary *primaryIM = [im valueAtIndex:[im indexForIdentifier:[im primaryIdentifier]]];
+    NSString *primaryIMType = [primaryIM objectForKey:kABInstantMessageServiceKey];
+    if (!primaryIMType) {
+        return NO;
+    }
+    static NSDictionary *imProperties = nil;
+    if (imProperties == nil) {
+        imProperties = [[NSDictionary alloc] initWithObjectsAndKeys:@"AIM:", kABInstantMessageServiceAIM, @"MSN:", kABInstantMessageServiceMSN, @"Yahoo!:", kABInstantMessageServiceYahoo, @"ICQ:", kABInstantMessageServiceICQ, @"Jabber:", kABInstantMessageServiceJabber, @"Facebook:", kABInstantMessageServiceFacebook, @"Google Talk:", kABInstantMessageServiceGoogleTalk, @"Gadu Gadu:", kABInstantMessageServiceGaduGadu, @"QQ:", kABInstantMessageServiceQQ, @"Skype:", kABInstantMessageServiceSkype, nil];
+    }
+    NSString *prefix = [imProperties objectForKey:primaryIMType];
+    if (!prefix) {
+        return NO;
+    }
+	[self setObject:[prefix stringByAppendingString:[primaryIM objectForKey:kABInstantMessageUsernameKey]] forType:QSIMAccountType];
+    return YES;
 }
 
 - (id)initWithPerson:(ABPerson *)person {
@@ -271,7 +378,7 @@
         [data setObject:[person uniqueId] forKey:QSABPersonType];
 		//[QSObject registerObject:self withIdentifier:[self identifier]];
         [self setIdentifier:[person uniqueId]];
-		[self loadContactInfo];
+		[self loadContactInfo:person];
     }
     return self;
 }
