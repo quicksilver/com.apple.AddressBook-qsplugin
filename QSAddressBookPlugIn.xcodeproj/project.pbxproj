@@ -12,6 +12,7 @@
 		738075C91545E10B00D22E1E /* QSABSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075C41545E10B00D22E1E /* QSABSource.m */; };
 		738075CA1545E10B00D22E1E /* QSObject_ContactHandling.m in Sources */ = {isa = PBXBuildFile; fileRef = 738075C61545E10B00D22E1E /* QSObject_ContactHandling.m */; };
 		73FC134F1545507600956087 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FC134E1545507600956087 /* Cocoa.framework */; };
+		CDD280C117B54D2C003D6A3C /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD280C017B54D2C003D6A3C /* AddressBook.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		73FC135A1545507600956087 /* QSPlugIn.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QSPlugIn.xcconfig; sourceTree = "<group>"; };
 		73FC135D1545507600956087 /* Quicksilver.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quicksilver.pch; sourceTree = "<group>"; };
 		73FC135E1545507600956087 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		CDD280C017B54D2C003D6A3C /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDD280C117B54D2C003D6A3C /* AddressBook.framework in Frameworks */,
 				73FC134F1545507600956087 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +71,7 @@
 		73FC134D1545507500956087 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDD280C017B54D2C003D6A3C /* AddressBook.framework */,
 				73FC134E1545507600956087 /* Cocoa.framework */,
 			);
 			name = Frameworks;

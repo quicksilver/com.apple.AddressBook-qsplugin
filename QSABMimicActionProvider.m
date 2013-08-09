@@ -6,6 +6,8 @@
 #define kABCopyMapURLAction @"COPY_MAP_URL"
 #define kQSABLargeTypeAction @"QSABLargeTypeAction"
 
+#import "QSObject_ContactHandling.h"
+
 @implementation QSABMimicActionProvider
 
 - (NSArray *) types{

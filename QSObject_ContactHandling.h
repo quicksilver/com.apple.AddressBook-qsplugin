@@ -1,4 +1,5 @@
 
+#import <AddressBook/AddressBook.h>
 
 NSString *formattedContactName(NSString *firstName, NSString *lastName, NSString *middleName, NSString *suffix, NSString *prefix);
 
