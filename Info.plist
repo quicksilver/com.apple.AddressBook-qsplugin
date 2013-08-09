@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.1</string>
+	<string>2.1.2</string>
 	<key>CFBundleVersion</key>
-	<string>172</string>
+	<string>176</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2012, QSApp</string>
 	<key>QSActions</key>
@@ -180,7 +180,7 @@
 	<key>QSRequirements</key>
 	<dict>
 		<key>version</key>
-		<string>12CC</string>
+		<string>4001</string>
 	</dict>
 </dict>
 </plist>
