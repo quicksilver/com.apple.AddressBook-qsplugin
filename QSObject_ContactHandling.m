@@ -113,6 +113,8 @@
             
             QSObject *obj = [QSObject URLObjectWithURL:[NSString stringWithFormat:@"mailto:%@", address]
                                                  title:name];
+            [obj setLabel:address];
+            [obj setDetails:name];
             if (obj) {
                 [obj setParentID:[person uniqueId]];
                 [contactlings addObject:obj];
@@ -138,13 +140,13 @@
         ABMultiValue *phoneNumbers = [thePerson valueForProperty:kABPhoneProperty];
         NSUInteger i;
         for (i = 0; i < [phoneNumbers count]; i++) {
-            NSString *address = [phoneNumbers valueAtIndex:i];
-            if ([usedPhoneNos containsObject:address]) {
+            NSString *phoneNo = [phoneNumbers valueAtIndex:i];
+            if ([usedPhoneNos containsObject:phoneNo]) {
                 continue;
             }
-            [usedPhoneNos addObject:address];
-            NSString *name = [self contactlingNameForPerson:thePerson label:[phoneNumbers labelAtIndex:i] type:kABAddressProperty asChild:asChild];
-            QSObject * obj = [QSObject objectWithString:address name:name type:QSContactPhoneType];
+            [usedPhoneNos addObject:phoneNo];
+            NSString *name = [self contactlingNameForPerson:thePerson label:[phoneNumbers labelAtIndex:i] type:kABPhoneProperty asChild:asChild];
+            QSObject *obj = [QSObject objectWithContactDetail:phoneNo name:name type:QSContactPhoneType];
             
             if (obj) {
                 [obj setParentID:[person uniqueId]];
@@ -181,7 +183,8 @@
             [usedAddresses addObject:string];
             NSString *name = [self contactlingNameForPerson:thePerson label:[addresses labelAtIndex:i] type:kABAddressProperty asChild:asChild];
             
-            QSObject * obj = [QSObject objectWithString:string name:name type:QSContactAddressType];
+            
+            QSObject * obj = [QSObject objectWithContactDetail:string name:name type:QSContactAddressType];
             
             if (obj) {
                 [obj setParentID:[person uniqueId]];
@@ -212,7 +215,7 @@
             }
             [usernames addObject:username];
             NSString *name = [self contactlingNameForPerson:person label:[ims labelAtIndex:i] type:@""  asChild:asChild];
-            QSObject *obj = [QSObject objectWithString:username name:name type:QSIMAccountType];
+            QSObject *obj = [QSObject objectWithContactDetail:username name:name type:QSIMAccountType];
             
             if (obj) {
                 [obj setParentID:[person uniqueId]];
@@ -258,10 +261,31 @@
 
 @implementation QSObject (ContactHandling)
 
-+ (id)objectWithPerson:(ABPerson *)person {
+#pragma mark QSObject creation methods
+
+- (QSObject *)initWithPerson:(ABPerson *)person {
+	//id object = [QSObject objectWithIdentifier:[person uniqueId]];
+    if ((self = [self init])) {
+        [data setObject:[person uniqueId] forKey:QSABPersonType];
+		//[QSObject registerObject:self withIdentifier:[self identifier]];
+        [self setIdentifier:[person uniqueId]];
+		[self loadContactInfo:person];
+    }
+    return self;
+}
+
++ (QSObject *)objectWithPerson:(ABPerson *)person {
     return [[[QSObject alloc] initWithPerson:person] autorelease];
 }
 
++ (QSObject *)objectWithContactDetail:(NSString *)detail name:(NSString *)name type:(NSString *)type {
+    
+    QSObject * obj = [QSObject objectWithString:detail name:name type:QSContactPhoneType];
+    [obj setDetails:name];
+    [obj setLabel:detail];
+    return obj;
+    
+}
 // - -NSString *formalName(NSString *title, NSString *firstName, NSString *middleName, NSString *lastName, NSString *suffix) {
 //NSMutableString *formalName=
 
@@ -372,15 +396,5 @@
     return YES;
 }
 
-- (id)initWithPerson:(ABPerson *)person {
-	//id object = [QSObject objectWithIdentifier:[person uniqueId]];
-    if ((self = [self init])) {
-        [data setObject:[person uniqueId] forKey:QSABPersonType];
-		//[QSObject registerObject:self withIdentifier:[self identifier]];
-        [self setIdentifier:[person uniqueId]];
-		[self loadContactInfo:person];
-    }
-    return self;
-}
 
 @end

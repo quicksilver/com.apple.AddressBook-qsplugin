@@ -13,11 +13,12 @@ NSString *formattedContactName(NSString *firstName, NSString *lastName, NSString
 @end
 
 @interface QSObject (ContactHandling)
-+ (id)objectWithPerson:(ABPerson *)person;
-//+ (id)objectWithString:(NSString *)string name:(NSString *)aName type:(NSString *)aType;
-//- (id)initWithString:(NSString *)string name:(NSString *)aName type:(NSString *)aType;
+
+- (QSObject *)initWithPerson:(ABPerson *)person;
++ (QSObject *)objectWithContactDetail:(NSString*)detail name:(NSString *)name type:(NSString *)type;
++ (QSObject *)objectWithPerson:(ABPerson *)person;
+
 - (ABPerson *)ABPerson;
-- (id)initWithPerson:(ABPerson *)person;
 - (void)loadContactInfo;
 - (void)loadContactInfo:(ABPerson *)person;
 
