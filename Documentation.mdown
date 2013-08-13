@@ -8,7 +8,7 @@ The plugin adds a single catalog source called 'Contacts', available under the '
 
 ### Contacts in Quicksilver
 
-Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact.
+Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact. Contact details are either searchable by the detail itself (e.g. the phone number) or the name of the detail (e.g. work phone).
 
 The contact's information is available for use with any valid action in Quicksilver. For example you can find a contact's postal address with Google Maps, email a file to one email address or open the contact's website.
 
