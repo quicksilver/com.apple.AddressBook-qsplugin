@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.4</string>
+	<string>2.1.5</string>
 	<key>CFBundleVersion</key>
 	<string>17A</string>
 	<key>NSHumanReadableCopyright</key>
@@ -64,6 +64,8 @@
 		<dict>
 			<key>actionClass</key>
 			<string>QSABContactActions</string>
+			<key>alternateAction</key>
+			<string>QSABContactEditAction</string>
 			<key>actionSelector</key>
 			<string>showContact:</string>
 			<key>directTypes</key>
@@ -100,10 +102,10 @@
 		<string>&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;The Apple Contacts plugin allows interaction with the contacts stored on your Mac or other sources (Exchange, CardDav). Contacts are added to your catalog, but can also be found by right arrowing → into the Contacts app.&lt;/p&gt;
 &lt;h2&gt;Catalog&lt;/h2&gt;
-&lt;p&gt;The plugin adds a single catalog source called 'Contacts', available under the 'Modules' tab in the Catalog preferences that adds all your contacts to Quicksilver's catalog. If you do not wish to populate your catalog with your contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Contacts app instead.&lt;/p&gt;
+&lt;p&gt;The plugin adds a single catalog source called &apos;Contacts&apos;, available under the &apos;Modules&apos; tab in the Catalog preferences that adds all your contacts to Quicksilver&apos;s catalog. If you do not wish to populate your catalog with your contacts, you can disable this entry and obtain a list of all your contacts by right arrowing → into the Contacts app instead.&lt;/p&gt;
 &lt;h3&gt;Contacts in Quicksilver&lt;/h3&gt;
 &lt;p&gt;Quicksilver obtains all the available information about a contact, including their email addresses, postal addresses, phone numbers and websites. This information can be viewed by right arrowing → into a selected contact. Contact details are either searchable by the detail itself (e.g. the phone number) or the name of the detail (e.g. work phone).&lt;/p&gt;
-&lt;p&gt;The contact's information is available for use with any valid action in Quicksilver. For example you can find a contact's postal address with Google Maps, email a file to one email address or open the contact's website.&lt;/p&gt;
+&lt;p&gt;The contact&apos;s information is available for use with any valid action in Quicksilver. For example you can find a contact&apos;s postal address with Google Maps, email a file to one email address or open the contact&apos;s website.&lt;/p&gt;
 &lt;h2&gt;Actions&lt;/h2&gt;
 &lt;dl&gt;
 &lt;dt&gt;Show Contact&lt;/dt&gt;
