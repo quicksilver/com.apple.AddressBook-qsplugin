@@ -130,7 +130,7 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
     NSMutableArray *array = [NSMutableArray array];
 
-    ABAddressBook *book = [ABAddressBook sharedAddressBook];
+    ABAddressBook *book = [ABAddressBook addressBook];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -154,9 +154,9 @@
             NSArray *linkedPeople = [thePerson linkedPeople];
             ABPerson *localPerson = nil;
             if ([linkedPeople count] > 1) {
-                [addedPeople addObjectsFromArray:[thePerson linkedPeople]];
+                [addedPeople addObjectsFromArray:linkedPeople];
                 // linked people exist for this contact, use the 'local' contact (if it exists) as the basis
-                NSIndexSet *ind = [[thePerson linkedPeople] indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ABPerson *p, NSUInteger idx, BOOL *stop) {
+                NSIndexSet *ind = [linkedPeople indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ABPerson *p, NSUInteger idx, BOOL *stop) {
                     return [p valueForProperty:kABSocialProfileProperty] == nil;
                 }];
                 if ([ind count]) {
