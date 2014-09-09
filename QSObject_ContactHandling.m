@@ -327,17 +327,8 @@
 	
 	[self setPrimaryType:QSABPersonType];
 	
-	NSString *group = [[NSUserDefaults standardUserDefaults]stringForKey:@"QSABPreferredDistribution"];
-	if (!group)group = @"Quicksilver";
-	
-	ABSearchElement *groupSearch = [ABGroup searchElementForProperty:kABGroupNameProperty label:nil key:nil value:group comparison:kABPrefixMatchCaseInsensitive];
-	
-	ABGroup *qsGroup = [[[ABAddressBook sharedAddressBook] recordsMatchingSearchElement:groupSearch] lastObject];
-	
-	NSString *distID = [qsGroup distributionIdentifierForProperty:kABEmailProperty person:person];
 	ABMultiValue *emailAddresses = [person valueForProperty:kABEmailProperty];
-	NSUInteger multiIndex = (distID ? [emailAddresses indexForIdentifier:distID] : 0);
-	NSString *address = [emailAddresses valueAtIndex:multiIndex];
+	NSString *address = [emailAddresses valueAtIndex:0];
 
 	if (address) {
 		[self setObject:address forType:QSEmailAddressType];
