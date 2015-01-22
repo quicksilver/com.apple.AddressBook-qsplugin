@@ -1,7 +1,4 @@
-
-#import <AddressBook/AddressBook.h>
-
-NSString *formattedContactName(NSString *firstName, NSString *lastName, NSString *middleName, NSString *suffix, NSString *prefix);
+@class ABPerson;
 
 @interface QSContactObjectHandler : NSObject
 + (NSArray *)URLObjectsForPerson:(ABPerson *)person asChild:(BOOL)asChild;

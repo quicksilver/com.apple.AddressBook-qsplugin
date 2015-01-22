@@ -306,13 +306,13 @@
 	NSString *newName = nil;
 	NSString *newLabel = nil;
 	
-	NSString *firstName = [person valueForProperty:kABFirstNameProperty];
+    //NSString *firstName = [person valueForProperty:kABFirstNameProperty];
 	NSString *lastName = [person valueForProperty:kABLastNameProperty];
-	NSString *middleName = [person valueForProperty:kABMiddleNameProperty];
+    //NSString *middleName = [person valueForProperty:kABMiddleNameProperty];
 	NSString *nickName = [person valueForProperty:kABNicknameProperty];
   
-	NSString *title = [person valueForProperty:kABTitleProperty];
-	NSString *suffix = [person valueForProperty:kABSuffixProperty];
+    //NSString *title = [person valueForProperty:kABTitleProperty];
+    //NSString *suffix = [person valueForProperty:kABSuffixProperty];
     NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
     NSString *companyName = [person valueForProperty:kABOrganizationProperty];
 
