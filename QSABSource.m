@@ -2,6 +2,8 @@
 #import "ABPerson_Display.h"
 #import "QSABSource.h"
 
+static NSTimer *delayScan = nil;
+
 @implementation QSAddressBookObjectSource
 - (id)init {
 	if ((self = [super init])) {
@@ -106,7 +108,10 @@
 
 - (void)invalidateSelf {
 	addressBookModDate = [NSDate timeIntervalSinceReferenceDate];
-	[super invalidateSelf];
+    // cancel previously scheduled scan
+    [delayScan invalidate];
+    // wait 10 seconds (for repeated notifications) before scanning
+    delayScan = [NSTimer scheduledTimerWithTimeInterval:10 target:[super self] selector:@selector(invalidateSelf) userInfo:nil repeats:NO];
 }
 
 - (BOOL)objectHasValidChildren:(QSObject *)object
