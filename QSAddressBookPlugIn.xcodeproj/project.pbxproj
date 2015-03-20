@@ -142,6 +142,8 @@
 /* Begin PBXProject section */
 		73FC13411545507500956087 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugIn" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -219,7 +221,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73FC135A1545507600956087 /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -227,7 +228,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 73FC135A1545507600956087 /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};

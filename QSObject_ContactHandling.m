@@ -306,24 +306,24 @@
 	NSString *newName = nil;
 	NSString *newLabel = nil;
 	
-	NSString *firstName = [person valueForProperty:kABFirstNameProperty];
+    //NSString *firstName = [person valueForProperty:kABFirstNameProperty];
 	NSString *lastName = [person valueForProperty:kABLastNameProperty];
-	NSString *middleName = [person valueForProperty:kABMiddleNameProperty];
-//	NSString *nickName = [person valueForProperty:kABNicknameProperty];
+    //NSString *middleName = [person valueForProperty:kABMiddleNameProperty];
+	NSString *nickName = [person valueForProperty:kABNicknameProperty];
   
-	NSString *title = [person valueForProperty:kABTitleProperty];
-	NSString *suffix = [person valueForProperty:kABSuffixProperty];
+    //NSString *title = [person valueForProperty:kABTitleProperty];
+    //NSString *suffix = [person valueForProperty:kABSuffixProperty];
     NSString *jobTitle = [person valueForProperty:kABJobTitleProperty];
     NSString *companyName = [person valueForProperty:kABOrganizationProperty];
 
-	newLabel = formattedContactName(firstName, lastName, middleName, title, suffix);
-	newName = [person displayName];
-	
+    newName = [NSString stringWithFormat:@"%@ %@", nickName, lastName];
 	[self setName:newName];
     [self setObject:lastName forMeta:@"surname"];
-	
-	if (newLabel)
-		[self setLabel:newLabel];
+    
+    newLabel = [person displayName];
+    if (newLabel) {
+        [self setLabel:newLabel];
+    }
 	
 	[self setPrimaryType:QSABPersonType];
 	
