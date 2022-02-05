@@ -123,7 +123,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 73FC136C1545507600956087 /* Build configuration list for PBXNativeTarget "QSAddressBookPlugin" */;
 			buildPhases = (
-				73FC13491545507500956087 /* Update Version and Documentation */,
 				73FC13461545507500956087 /* Sources */,
 				73FC13471545507500956087 /* Frameworks */,
 				73FC13481545507500956087 /* Resources */,
@@ -143,12 +142,18 @@
 		73FC13411545507500956087 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				TargetAttributes = {
+					73FC134A1545507500956087 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = 73FC13441545507500956087 /* Build configuration list for PBXProject "QSAddressBookPlugIn" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 73FC133F1545507500956087;
@@ -170,23 +175,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		73FC13491545507500956087 /* Update Version and Documentation */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Update Version and Documentation";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "\"$QS_BUILD_ROOT/Tools/bltrversion\"";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		73FC13461545507500956087 /* Sources */ = {
