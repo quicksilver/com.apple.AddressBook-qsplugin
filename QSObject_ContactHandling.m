@@ -280,7 +280,7 @@
 
 + (QSObject *)objectWithContactDetail:(NSString *)detail name:(NSString *)name type:(NSString *)type {
     
-    QSObject * obj = [QSObject objectWithString:detail name:name type:QSContactPhoneType];
+    QSObject * obj = [QSObject objectWithString:detail name:name type:type];
     [obj setDetails:name];
     [obj setLabel:detail];
     return obj;
