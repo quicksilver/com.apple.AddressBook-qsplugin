@@ -103,7 +103,9 @@ static NSTimer *delayScan = nil;
 }
 
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
-	return ([indexDate timeIntervalSinceReferenceDate] > addressBookModDate);
+	// sometimes [ABAddressbook people] doesn't return valid results (e.g. first time when QS is launching)
+	// setting this to NO means it's revalidated every time you → into Contatcts
+	return NO;
 }
 
 - (void)invalidateSelf {
@@ -150,42 +152,33 @@ static NSTimer *delayScan = nil;
         return array;
     }
 
-    if ([NSApplication isMountainLion]) {
-        NSMutableArray *addedPeople = [NSMutableArray array];
-        for (id thePerson in people) {
-            if ([addedPeople containsObject:thePerson]) {
-                continue;
-            }
-            NSArray *linkedPeople = [thePerson linkedPeople];
-            ABPerson *localPerson = nil;
-            if ([linkedPeople count] > 1) {
-                [addedPeople addObjectsFromArray:linkedPeople];
-                // linked people exist for this contact, use the 'local' contact (if it exists) as the basis
-                NSIndexSet *ind = [linkedPeople indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ABPerson *p, NSUInteger idx, BOOL *stop) {
-                    return [p valueForProperty:kABSocialProfileProperty] == nil;
-                }];
-                if ([ind count]) {
-                    localPerson = [linkedPeople objectAtIndex:[ind lastIndex]];
-                } else {
-                    localPerson = [linkedPeople objectAtIndex:0];
-                }
-            } else {
-                localPerson = thePerson;
-            }
-            
+		NSMutableArray *addedPeople = [NSMutableArray array];
+		for (id thePerson in people) {
+				if ([addedPeople containsObject:thePerson]) {
+						continue;
+				}
+				NSArray *linkedPeople = [thePerson linkedPeople];
+				ABPerson *localPerson = nil;
+				if ([linkedPeople count] > 1) {
+						[addedPeople addObjectsFromArray:linkedPeople];
+						// linked people exist for this contact, use the 'local' contact (if it exists) as the basis
+						NSIndexSet *ind = [linkedPeople indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(ABPerson *p, NSUInteger idx, BOOL *stop) {
+								return [p valueForProperty:kABSocialProfileProperty] == nil;
+						}];
+						if ([ind count]) {
+								localPerson = [linkedPeople objectAtIndex:[ind lastIndex]];
+						} else {
+								localPerson = [linkedPeople objectAtIndex:0];
+						}
+				} else {
+						localPerson = thePerson;
+				}
+				
 
 
-            if (includeContacts)	[array addObject:[QSObject objectWithPerson:localPerson]];
-        }
-    } else {
-        for(id thePerson in people) {
-            if (includeContacts)	[array addObject:[QSObject objectWithPerson:thePerson]];
-            if (includePhone)		[array addObjectsFromArray:[QSContactObjectHandler phoneObjectsForPerson:thePerson asChild:NO]];
-            if (includeURL)			[array addObjectsFromArray:[QSContactObjectHandler URLObjectsForPerson:thePerson asChild:NO]];
-            if (includeIM)			[array addObjectsFromArray:[QSContactObjectHandler imObjectsForPerson:thePerson asChild:NO]];
-            if (includeEmail)		[array addObjectsFromArray:[QSContactObjectHandler emailObjectsForPerson:thePerson asChild:NO]];
-        }
-    }
+				if (includeContacts)	[array addObject:[QSObject objectWithPerson:localPerson]];
+		}
+	
     return array;
 }
 
